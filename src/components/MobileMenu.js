@@ -49,29 +49,32 @@ const StyledMobileMenu = styled(motion.nav)`
 const menu = [
     {
         label: `Home`,
-        href: `#home`,
+        to: `/#home`,
     },
     {
         label: `Intro`,
-        href: `#intro`,
+        to: `/#intro`,
     },
     {
         label: `Projects`,
-        href: `#projects`,
+        to: `/#projects`,
     },
     {
         label: `Social`,
-        href: `#social`,
+        to: `/#social`,
     },
     {
         label: `Friends`,
-        href: `#friends`,
+        to: `/#friends`,
+    },
+    {
+        label: `Blog`,
+        to: `/blog`,
     },
 ]
 
 const MobileMenu = () => {
     const { toggleMobileMenu } = useMobileMenu()
-    const pathname = window.location.pathname
 
     return (
         <StyledMobileMenu
@@ -82,10 +85,10 @@ const MobileMenu = () => {
             <ul>
                 {menu.map(item => (
                     <li key={item.label}>
-                        {pathname.includes(`/projects/`) ? (
+                        {item.to ? (
                             <LineThroughLink
                                 className={`link`}
-                                to={`/${item.href}`}
+                                to={item.to}
                                 onClick={toggleMobileMenu}
                             >
                                 {item.label}
