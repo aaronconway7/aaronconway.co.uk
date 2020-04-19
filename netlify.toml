@@ -1,0 +1,7 @@
+[context.production]
+    publish = "public"
+    command = "yarn build"
+
+[context.branch-deploy]
+    publish = "/"
+    command = "echo branch"
