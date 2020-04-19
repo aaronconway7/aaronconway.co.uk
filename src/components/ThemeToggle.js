@@ -1,29 +1,31 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
+import { FiMoon, FiSun } from 'react-icons/fi'
 
 import { DarkModeContext } from '../store/darkMode'
-import Emoji from '../components/Emoji'
 
 const Toggle = styled.button`
-    ${tw`border-2 border-white rounded-full flex cursor-pointer w-20 px-2 justify-between items-center text-white overflow-hidden`}
-    background: ${({ theme }) =>
-        theme.darkMode
-            ? `linear-gradient(#091236, #1E215D)`
-            : `linear-gradient(#39598A, #79D7ED)`};
+    ${tw`absolute top-0 right-0 mt-4 mr-4 border border-white rounded-full cursor-pointer w-10 z-10`}
+    background: var(--brand-red);
 
-    .icon {
-        ${tw`transform transition duration-300 ease-linear text-2xl`}
+    .wrapper {
+        ${tw`p-1 relative`}
+
+        .icon {
+            ${tw`absolute top-0 mt-1 text-xs`}
+            z-index: -1;
+
+            &.sun {
+                ${tw`right-0 mr-1`}
+            }
+        }
     }
 
-    .light {
-        ${({ theme }) =>
-            theme.darkMode ? tw`translate-y-8` : tw`translate-y-0`}
-    }
-
-    .dark {
-        ${({ theme }) =>
-            theme.darkMode ? tw`translate-y-0` : tw`-translate-y-8`}
+    .toggle-selector {
+        ${tw`h-3 w-3 bg-white rounded-full`}
+        margin-left: ${({ theme }) => !theme.darkMode && `auto`};
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
     }
 `
 
@@ -32,12 +34,11 @@ const ThemeToggle = () => {
 
     return (
         <Toggle onClick={toggleDarkMode}>
-            <span className={`icon light`}>
-                <Emoji emoji={`🌞`} label={`Sun`} />
-            </span>
-            <span className={`icon dark`}>
-                <Emoji emoji={`🌚`} label={`Moon`} />
-            </span>
+            <div className={`wrapper`}>
+                <FiMoon className={`icon moon`} />
+                <FiSun className={`icon sun`} />
+                <div className={`toggle-selector`} />
+            </div>
         </Toggle>
     )
 }

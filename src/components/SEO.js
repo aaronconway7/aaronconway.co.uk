@@ -12,6 +12,7 @@ import { useSiteMetadata } from '../hooks/use-site-metadata'
 function SEO({ description = ``, lang = `en`, meta = [], title, socialImage }) {
     const metadata = useSiteMetadata()
 
+    const metaTitle = title || metadata.title
     const metaDescription = description || metadata.description
     const metaSocialImage = socialImage || metadata.socialImage
 
@@ -20,8 +21,7 @@ function SEO({ description = ``, lang = `en`, meta = [], title, socialImage }) {
             htmlAttributes={{
                 lang,
             }}
-            title={title}
-            titleTemplate={`%s | ${metadata.title}`}
+            title={metaTitle}
             meta={[
                 {
                     name: `description`,
@@ -29,7 +29,7 @@ function SEO({ description = ``, lang = `en`, meta = [], title, socialImage }) {
                 },
                 {
                     property: `og:title`,
-                    content: title,
+                    content: metaTitle,
                 },
                 {
                     property: `og:description`,
@@ -53,7 +53,7 @@ function SEO({ description = ``, lang = `en`, meta = [], title, socialImage }) {
                 },
                 {
                     name: `twitter:title`,
-                    content: title,
+                    content: metaTitle,
                 },
                 {
                     name: `twitter:description`,

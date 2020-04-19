@@ -1,4 +1,5 @@
 import React from 'react'
+import 'typeface-poppins'
 
 import './src/css/tailwind.css'
 

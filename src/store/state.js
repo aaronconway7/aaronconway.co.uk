@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { DarkModeProvider } from './darkMode'
+import { MobileMenuProvider } from './mobileMenu'
 
 // Take in all of the providers and combine them
 const ProviderComposer = ({ contexts, children }) => {
@@ -16,7 +17,9 @@ const ProviderComposer = ({ contexts, children }) => {
 // Create one Context Provider
 const ContextProvider = ({ children }) => {
     return (
-        <ProviderComposer contexts={[<DarkModeProvider />]}>
+        <ProviderComposer
+            contexts={[<DarkModeProvider />, <MobileMenuProvider />]}
+        >
             {children}
         </ProviderComposer>
     )

@@ -11,6 +11,7 @@ export const useSiteMetadata = () => {
                         author
                         twitter
                         socialImage
+                        backgroundColor
                     }
                 }
             }

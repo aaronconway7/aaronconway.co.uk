@@ -1,14 +1,16 @@
+require('dotenv').config()
+
 const siteMetadata = {
-    title: `Gatsby App`,
-    shortName: `gatsby`,
-    description: `My Starter Template for a Gatsby based app.`,
+    title: `Aaron Conway | Developer, Designer, one or the other.`,
+    shortName: `Aaron Conway`,
+    description: `Portfolio Website for Aaron Conway.`,
     author: `Aaron`,
     twitter: `@aaronconway7`,
-    siteUrl: `https://example.com/`,
-    backgroundColor: `#663399`,
-    themeColor: `#663399`,
+    siteUrl: `https://aaronconway.co.uk/`,
+    backgroundColor: `#0e0e0e`,
+    themeColor: `#fa4b4a`,
     favicon: `src/assets/img/favicon.png`,
-    socialImage: `src/assets/img/leo.jpg`,
+    socialImage: `src/assets/img/me.jpg`,
 }
 
 module.exports = {
@@ -38,7 +40,39 @@ module.exports = {
         },
         // this (optional) plugin enables Progressive Web App + Offline functionality
         // To learn more, visit: https://gatsby.dev/offline
-        `gatsby-plugin-offline`,
+        // `gatsby-plugin-offline`,
+        {
+            resolve: `gatsby-source-airtable`,
+            options: {
+                apiKey: process.env.AIRTABLE_API_KEY, // may instead specify via env, see below
+                tables: [
+                    {
+                        baseId: `appBUcuPrHrxslrh2`,
+                        tableName: `Projects`,
+                        tableLinks: [`team`],
+                        mapping: {
+                            thumbnail: `fileNode`,
+                            artwork: `fileNode`,
+                            screenshots: `fileNode`,
+                        },
+                    },
+                    {
+                        baseId: `appBUcuPrHrxslrh2`,
+                        tableName: `Friends`,
+                        mapping: { sole: `fileNode`, duo: `fileNode` }, // optional, e.g. "text/markdown", "fileNode"
+                    },
+                ],
+            },
+        },
+        {
+            resolve: `gatsby-plugin-nprogress`,
+            options: {
+                // Setting a color is optional.
+                color: siteMetadata.themeColor,
+                // Disable the loading spinner.
+                showSpinner: false,
+            },
+        },
         {
             resolve: `gatsby-plugin-styled-components`,
             options: {
@@ -50,7 +84,7 @@ module.exports = {
             resolve: `gatsby-plugin-google-analytics`,
             options: {
                 // The property ID; the tracking code won't be generated without it
-                trackingId: 'YOUR_GOOGLE_ANALYTICS_TRACKING_ID',
+                trackingId: 'UA-87682044-1',
             },
         },
         {

@@ -1,18 +1,40 @@
 import React, { useContext } from 'react'
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 import tw from 'twin.macro'
+import { AnimatePresence } from 'framer-motion'
 
 import { DarkModeContext } from '../store/darkMode'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
+import { MobileMenuContext } from '../store/mobileMenu'
+import { useSiteMetadata } from '../hooks/use-site-metadata'
+import Box from '../components/Box'
+import MobileMenu from '../components/MobileMenu'
+import ThemeToggle from '../components/ThemeToggle'
 
 const GlobalStyle = createGlobalStyle`
+
+    :root {
+        --brand-red: #fa4b4a;
+    }
+
+    ::selection {
+        background-color: var(--brand-red);
+    }
+
+    html {
+        scroll-behavior: smooth;
+        background-color: var(--brand-red);
+    }
+    
     body {
-        ${tw`min-h-screen text-gray-900`}
+        ${tw`min-h-screen text-gray-900 transition-colors duration-1000 ease-in-out`}
         ${({ theme }) =>
-            theme.darkMode
-                ? tw`text-gray-100 bg-gray-900`
-                : tw`text-gray-900 bg-gray-100`}
+            theme.darkMode ? tw`text-gray-100` : tw`text-gray-900`}
+        background-color: ${props =>
+            props.theme.darkMode ? props.backgroundColor : `white`};
+        font-family: 'Poppins', sans-serif;
+        height: ${({ pageLocked }) => pageLocked && `100vh`};
+        overflow: ${({ pageLocked }) => pageLocked && `hidden`};
+        width: ${({ pageLocked }) => pageLocked && `100vw`};
     }
 
     h1,
@@ -24,38 +46,33 @@ const GlobalStyle = createGlobalStyle`
         ${tw`font-bold`}
     }
 
-    a {
-        ${tw`opacity-50 transition duration-300 ease-in-out hover:opacity-75 hover:underline`}
-    }
-
     button {
         ${tw`outline-none!`}
     }
 `
 
 const StyledBody = styled.div`
-    ${tw`min-h-screen grid`}
-    grid-template-rows: auto 1fr auto;
-
-    main {
-        ${tw`text-center w-10/12 max-w-3xl mx-auto py-24`}
-    }
-
-    footer {
-        ${tw`row-start-3 row-end-4`}
-    }
+    ${tw`min-h-screen grid relative`}
 `
 
 const Layout = ({ children }) => {
     const { darkMode } = useContext(DarkModeContext)
+    const { mobileMenuOpen } = useContext(MobileMenuContext)
+    const { backgroundColor } = useSiteMetadata()
 
     return (
         <ThemeProvider theme={{ darkMode }}>
-            <GlobalStyle />
+            <GlobalStyle
+                backgroundColor={backgroundColor}
+                pageLocked={mobileMenuOpen}
+            />
             <StyledBody>
-                <Header />
+                <ThemeToggle />
+                <AnimatePresence>
+                    {mobileMenuOpen && <MobileMenu />}
+                </AnimatePresence>
                 <main>{children}</main>
-                <Footer />
+                <Box />
             </StyledBody>
         </ThemeProvider>
     )
