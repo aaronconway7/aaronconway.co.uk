@@ -1,17 +1,15 @@
-import React, { createContext } from 'react'
-
-import useDarkMode from '../hooks/use-dark-mode'
+import React, { createContext, useState } from 'react'
 
 export const DarkModeContext = createContext()
 
 export const DarkModeProvider = ({ children }) => {
-    const { darkMode, toggleDarkMode } = useDarkMode()
+    const [darkMode, setDarkMode] = useState(true)
 
     return (
         <DarkModeContext.Provider
             value={{
                 darkMode,
-                toggleDarkMode,
+                setDarkMode,
             }}
         >
             {children}

@@ -22,7 +22,7 @@ const GlobalStyle = createGlobalStyle`
 
     html {
         scroll-behavior: smooth;
-        background-color: var(--brand-red);
+        background-color: ${props => props.backgroundColor};
     }
     
     body {

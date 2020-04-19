@@ -1,13 +1,9 @@
-import { useEffect } from 'react'
+import { useContext } from 'react'
 
-import useLocalStorage from './use-local-storage'
+import { DarkModeContext } from '../store/darkMode'
 
 const useDarkMode = () => {
-    const [darkMode, setDarkMode] = useLocalStorage(`darkMode`, true)
-
-    useEffect(() => {
-        setDarkMode(darkMode)
-    }, [darkMode, setDarkMode])
+    const { darkMode, setDarkMode } = useContext(DarkModeContext)
 
     const toggleDarkMode = () => {
         setDarkMode(prevMode => !prevMode)
