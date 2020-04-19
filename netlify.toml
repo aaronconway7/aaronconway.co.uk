@@ -3,5 +3,5 @@
     command = "yarn build"
 
 [context.branch-deploy]
-    publish = ""
-    command = ""
+    publish = "/"
+    command = "echo branch"
