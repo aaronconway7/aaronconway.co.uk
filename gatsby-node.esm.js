@@ -13,8 +13,10 @@ exports.onCreateNode = async ({ node, loadNodeContent, actions }) => {
     }
     const doc = JSON.parse(await loadNodeContent(node))
     const text = documentToPlainTextString(doc)
+    const excerpt = `${text.substr(0, 100)}...`
     const result = readingTime(text)
     createNodeField({ node, name: 'readingTime', value: result })
+    createNodeField({ node, name: 'excerpt', value: excerpt })
 }
 
 exports.createPages = async ({ graphql, actions }) => {

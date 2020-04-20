@@ -1,18 +1,19 @@
 import React from 'react'
+import { Link } from 'gatsby'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 
 import Emoji from './Emoji'
-import LineThroughLink from './LineThroughLink'
 
 const Posts = ({ data: posts }) => (
     <StyledPosts>
         {posts.map(({ node: post }) => (
             <li className={`post`} key={post.slug}>
                 <span className={`date`}>{post.date}</span>
-                <LineThroughLink to={`/blog/${post.slug}`} className={`title`}>
+                <Link to={`/blog/${post.slug}`} className={`title`}>
                     {post.title}
-                </LineThroughLink>
+                </Link>
+                <p className={`excerpt`}>{post.content.fields.excerpt}</p>
                 <span className={`reading-time`}>
                     <Emoji emoji={`🕑`} label={`clock`} />
                     <span className={`text`}>
@@ -27,7 +28,7 @@ const Posts = ({ data: posts }) => (
 export default Posts
 
 const StyledPosts = styled.ul`
-    ${tw`grid gap-8`}
+    ${tw`grid gap-10`}
 
     .post {
         ${tw`grid`}
@@ -37,16 +38,18 @@ const StyledPosts = styled.ul`
         }
 
         .title {
-            ${tw`font-semibold text-2xl`}
-            width: max-content;
+            ${tw`font-semibold text-2xl transition-colors duration-200 ease-in-out`}
+                :hover {
+                color: var(--brand-red);
+            }
         }
 
-        .caption {
+        .excerpt {
             ${tw`opacity-75`}
         }
 
         .reading-time {
-            ${tw`text-xs`}
+            ${tw`text-xs mt-2`}
 
             .text {
                 ${tw`opacity-50`}

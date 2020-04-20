@@ -7,7 +7,7 @@ import { motion } from 'framer-motion'
 
 import Emoji from './Emoji'
 
-const FeaturedPost = ({ data: featuredPost, selected }) => (
+const FeaturedPost = ({ data: featuredPost }) => (
     <StyledFeaturedPost>
         <Img
             className={`featured-image`}
@@ -15,45 +15,31 @@ const FeaturedPost = ({ data: featuredPost, selected }) => (
             alt={featuredPost.title}
         />
         <div className={`content`}>
-            {selected && <small className={`date`}>{featuredPost.date}</small>}
             <h1 className={`title`}>{featuredPost.title}</h1>
-            {selected && (
-                <>
-                    <p className={`caption`}>{featuredPost.caption}</p>
-                    <span className={`reading-time`}>
-                        <Emoji emoji={`⏰`} label={`clock`} />
-                        <span className={`text`}>
-                            {featuredPost.content.fields.readingTime.text}
-                        </span>
-                    </span>
-                </>
-            )}
-            {!selected && (
-                <Link to={`/blog/${featuredPost.slug}`}>
-                    <motion.span
-                        className={`read-post`}
-                        whileHover={`hover`}
+            <Link to={`/blog/${featuredPost.slug}`}>
+                <motion.span
+                    className={`read-post`}
+                    whileHover={`hover`}
+                    variants={{
+                        hover: {
+                            x: 10,
+                        },
+                    }}
+                >
+                    Read Post{' '}
+                    <motion.div
+                        className={`motion-emoji`}
                         variants={{
                             hover: {
-                                x: 10,
+                                x: 75,
+                                opacity: 0,
                             },
                         }}
                     >
-                        Read Post{' '}
-                        <motion.div
-                            className={`motion-emoji`}
-                            variants={{
-                                hover: {
-                                    x: 75,
-                                    opacity: 0,
-                                },
-                            }}
-                        >
-                            <Emoji emoji={`🚀`} label={`rocket`} />
-                        </motion.div>
-                    </motion.span>
-                </Link>
-            )}
+                        <Emoji emoji={`🚀`} label={`rocket`} />
+                    </motion.div>
+                </motion.span>
+            </Link>
         </div>
     </StyledFeaturedPost>
 )

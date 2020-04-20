@@ -22,6 +22,7 @@ const Home = () => {
                         }
                         content {
                             fields {
+                                excerpt
                                 readingTime {
                                     text
                                 }
@@ -47,6 +48,6 @@ export default Home
 
 const StyledHome = styled.div`
     .posts {
-        ${tw`w-4/5 mx-auto py-20 max-w-lg`}
+        ${tw`w-4/5 mx-auto py-32 max-w-lg`}
     }
 `

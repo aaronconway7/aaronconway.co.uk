@@ -26,6 +26,7 @@
     "dependencies": {
         "@contentful/rich-text-plain-text-renderer": "^14.0.0",
         "@contentful/rich-text-react-renderer": "^13.4.0",
+        "@contentful/rich-text-types": "^14.1.0",
         "algoliasearch": "^4.1.0",
         "dotenv": "^8.2.0",
         "esm": "^3.2.25",
