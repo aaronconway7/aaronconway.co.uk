@@ -76,7 +76,7 @@ const Post = ({ data: { post } }) => {
             </div>
             <img
                 class={`author-avatar`}
-                src={`https://unavatar.now.sh/aaronconway7`}
+                src={`https://unavatar.now.sh/instagram/aaronconway7`}
                 alt={`Author Avatar`}
             />
             <Link to={`/blog`} className={`return-blog-home`}>
