@@ -3,6 +3,15 @@ import { Link } from 'gatsby'
 import styled, { css } from 'styled-components'
 import tw from 'twin.macro'
 
+const LineThroughLink = ({ children, ...rest }) => {
+    if (rest.to) {
+        return <AnimatedLink {...rest}>{children}</AnimatedLink>
+    }
+    return <AnimatedAnchor {...rest}>{children}</AnimatedAnchor>
+}
+
+export default LineThroughLink
+
 export const AnimatedText = css`
     ${tw`relative`}
 
@@ -35,12 +44,3 @@ export const AnimatedLink = styled(Link)`
 export const AnimatedAnchor = styled.a`
     ${AnimatedText}
 `
-
-const LineThroughLink = ({ children, ...rest }) => {
-    if (rest.to) {
-        return <AnimatedLink {...rest}>{children}</AnimatedLink>
-    }
-    return <AnimatedAnchor {...rest}>{children}</AnimatedAnchor>
-}
-
-export default LineThroughLink

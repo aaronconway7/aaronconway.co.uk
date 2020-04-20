@@ -1,4 +1,5 @@
 require('dotenv').config()
+const queries = require('./src/utils/algolia')
 
 const siteMetadata = {
     title: `Aaron Conway | Developer, Designer, one or the other.`,
@@ -65,12 +66,29 @@ module.exports = {
             },
         },
         {
+            resolve: `gatsby-source-contentful`,
+            options: {
+                spaceId: `l62l9fcffwik`,
+                // Learn about environment variables: https://gatsby.app/env-vars
+                accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+            },
+        },
+        {
             resolve: `gatsby-plugin-nprogress`,
             options: {
                 // Setting a color is optional.
                 color: siteMetadata.themeColor,
                 // Disable the loading spinner.
                 showSpinner: false,
+            },
+        },
+        {
+            resolve: `gatsby-plugin-algolia`,
+            options: {
+                appId: process.env.GATSBY_ALGOLIA_APP_ID,
+                apiKey: process.env.ALGOLIA_ADMIN_KEY,
+                queries,
+                chunkSize: 1000, // default: 1000
             },
         },
         {
