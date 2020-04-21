@@ -17,6 +17,7 @@ exports.onCreateNode = async ({ node, loadNodeContent, actions }) => {
     const result = readingTime(text)
     createNodeField({ node, name: 'readingTime', value: result })
     createNodeField({ node, name: 'excerpt', value: excerpt })
+    createNodeField({ node, name: 'text', value: text })
 }
 
 exports.createPages = async ({ graphql, actions }) => {

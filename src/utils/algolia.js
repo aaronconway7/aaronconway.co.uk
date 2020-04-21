@@ -1,10 +1,21 @@
 const postQuery = `{
-    posts: allContentfulPost(sort: {fields: date, order: DESC}) {
-      edges {
-        node {
-          title
+    posts: allContentfulPost(sort: {fields: date, order: ASC}) {
+        edges {
+            node {
+                slug
+                title
+                date
+                content {
+                    fields {
+                        excerpt
+                        readingTime {
+                            text
+                        }
+                        text
+                    }
+                }
+            }
         }
-      }
     }
 }`
 
@@ -13,11 +24,17 @@ const flatten = arr =>
         ...rest,
     }))
 
+const settings = {
+    hitsPerPage: 5,
+    searchableAttributes: [`title`, `content.fields.text`],
+}
+
 const queries = [
     {
         query: postQuery,
         transformer: ({ data }) => flatten(data.posts.edges),
         indexName: `Blog`,
+        settings,
     },
 ]
 
