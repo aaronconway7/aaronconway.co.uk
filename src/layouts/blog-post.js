@@ -10,6 +10,7 @@ import { FiCornerDownLeft } from 'react-icons/fi'
 import Emoji from '../components/Emoji'
 import LineThroughLink from '../components/LineThroughLink'
 import SEO from '../components/SEO'
+import useDarkMode from '../hooks/use-dark-mode'
 
 const options = {
     renderMark: {
@@ -40,8 +41,9 @@ const options = {
         text.split('\n').flatMap((text, i) => [i > 0 && <br />, text]),
 }
 
-const Post = ({ data: { post } }) => {
-    const { content } = post
+const Post = ({ data }) => {
+    const { post, avatar, signatureLight, signatureDark } = data
+    const { darkMode } = useDarkMode()
     return (
         <StyledPost>
             <SEO title={`Aaron Conway's Blog | ${post.title}`} />
@@ -72,12 +74,21 @@ const Post = ({ data: { post } }) => {
                 )}
             </div>
             <div className={`post-content`}>
-                {documentToReactComponents(content.json, options)}
+                {documentToReactComponents(post.content.json, options)}
             </div>
-            <img
-                class={`author-avatar`}
-                src={`https://unavatar.now.sh/instagram/aaronconway7`}
-                alt={`Author Avatar`}
+            <Img
+                className={`author-signature`}
+                fluid={
+                    darkMode
+                        ? signatureLight.childImageSharp.fluid
+                        : signatureDark.childImageSharp.fluid
+                }
+                alt={`Aaron Conway Signature`}
+            />
+            <Img
+                className={`author-avatar`}
+                fluid={avatar.childImageSharp.fluid}
+                alt={`Aaron Conway Avatar`}
             />
             <Link to={`/blog`} className={`return-blog-home`}>
                 Return to Blog Home
@@ -108,6 +119,27 @@ export const query = graphql`
                     readingTime {
                         text
                     }
+                }
+            }
+        }
+        signatureLight: file(relativePath: { eq: "signature-light.png" }) {
+            childImageSharp {
+                fluid {
+                    ...GatsbyImageSharpFluid
+                }
+            }
+        }
+        signatureDark: file(relativePath: { eq: "signature-dark.png" }) {
+            childImageSharp {
+                fluid {
+                    ...GatsbyImageSharpFluid
+                }
+            }
+        }
+        avatar: file(relativePath: { eq: "avatar.jpg" }) {
+            childImageSharp {
+                fluid {
+                    ...GatsbyImageSharpFluid
                 }
             }
         }
@@ -192,8 +224,17 @@ const StyledPost = styled.div`
         }
     }
 
+    .author-signature,
     .author-avatar {
-        ${tw`rounded-full mx-auto h-40 mb-32`}
+        ${tw`mx-auto h-40 w-40`}
+    }
+
+    .author-signature {
+        ${tw`mb-12`}
+    }
+
+    .author-avatar {
+        ${tw`rounded-full mb-32`}
     }
 
     .return-blog-home {

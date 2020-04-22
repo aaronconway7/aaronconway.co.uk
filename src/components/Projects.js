@@ -6,6 +6,7 @@ import tw from 'twin.macro'
 import Emoji from './Emoji'
 import HomeSectionLayout from '../layouts/homeSection'
 import Project from './Project'
+import Masonry from '../layouts/masonry'
 
 const Projects = () => {
     const {
@@ -54,9 +55,11 @@ const Projects = () => {
                 </p>
             </HomeSectionLayout>
             <div className={`projects`}>
-                {projects.map(({ node: { data: project } }) => (
-                    <Project data={project} key={project.title} />
-                ))}
+                <Masonry mdCols={2}>
+                    {projects.map(({ node: { data: project } }) => (
+                        <Project data={project} key={project.title} />
+                    ))}
+                </Masonry>
             </div>
         </StyledProjects>
     )
@@ -68,10 +71,6 @@ const StyledProjects = styled.section`
     ${tw`grid grid-cols-2`};
     background-color: ${({ theme }) =>
         theme.darkMode ? `rgba(255, 255, 255, 0.05)` : `rgba(0, 0, 0, 0.05)`};
-
-    @media (min-width: 768px) {
-        grid-template-columns: auto 33vw;
-    }
 
     .projects {
         ${tw`grid gap-0 h-screen overflow-auto`}

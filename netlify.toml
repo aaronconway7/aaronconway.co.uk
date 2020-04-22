@@ -7,11 +7,7 @@
     command = "echo branch"
 
 [[redirects]]
-  from = "https://blog.aaronconway.co.uk"
-  to = "https://aaronconway.co.uk/blog"
-  status = 200
-
-[[redirects]]
   from = "https://blog.aaronconway.co.uk/*"
   to = "https://aaronconway.co.uk/blog/:splat"
   status = 200
+  force = true

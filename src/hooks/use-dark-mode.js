@@ -6,7 +6,11 @@ const useDarkMode = () => {
     const { darkMode, setDarkMode } = useContext(DarkModeContext)
 
     const toggleDarkMode = () => {
-        setDarkMode(prevMode => !prevMode)
+        setDarkMode(prevMode => {
+            // Persist it on update
+            window.localStorage.setItem(`darkMode`, !prevMode)
+            return !prevMode
+        })
     }
 
     return {

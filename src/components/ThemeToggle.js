@@ -6,7 +6,9 @@ import { FiMoon, FiSun } from 'react-icons/fi'
 import useDarkMode from '../hooks/use-dark-mode'
 
 const ThemeToggle = () => {
-    const { toggleDarkMode } = useDarkMode()
+    const { darkMode, toggleDarkMode } = useDarkMode()
+
+    if (darkMode === undefined) return null
 
     return (
         <Toggle onClick={toggleDarkMode}>
@@ -44,7 +46,7 @@ const Toggle = styled.button`
 
     .toggle-selector {
         ${tw`h-3 w-3 bg-white rounded-full`}
-        margin-left: ${({ theme }) => !theme.darkMode && `auto`};
+        margin-left: ${({ theme }) => theme.darkMode && `auto`};
         box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
     }
 `
