@@ -2,11 +2,12 @@ import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import styled from 'styled-components'
 import tw from 'twin.macro'
+import loadable from '@loadable/component'
 
 import Emoji from './Emoji'
 import HomeSectionLayout from '../layouts/homeSection'
 import Project from './Project'
-import Masonry from '../layouts/masonry'
+const Masonry = loadable(() => import('../layouts/masonry'))
 
 const Projects = () => {
     const {

@@ -5,14 +5,14 @@ import Colcade from 'colcade'
 
 const Masonry = ({ cols = 1, mdCols, lgCols, gutter, children }) => {
     const maxCols = lgCols || mdCols || cols
+
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            new Colcade('.masonry-container', {
-                columns: '.masonry-col',
-                items: '.masonry-item',
-            })
-        }
+        new Colcade('.masonry-container', {
+            columns: '.masonry-col',
+            items: '.masonry-item',
+        })
     }, [])
+
     return (
         <StyledMasonry className={`masonry-container`}>
             {[...Array(maxCols)].map((col, i) => (
