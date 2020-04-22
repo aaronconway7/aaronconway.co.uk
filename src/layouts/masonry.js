@@ -6,7 +6,7 @@ import Colcade from 'colcade'
 const Masonry = ({ cols = 1, mdCols, lgCols, gutter, children }) => {
     const maxCols = lgCols || mdCols || cols
     useEffect(() => {
-        if (window) {
+        if (typeof window !== 'undefined') {
             new Colcade('.masonry-container', {
                 columns: '.masonry-col',
                 items: '.masonry-item',
