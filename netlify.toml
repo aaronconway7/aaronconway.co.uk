@@ -5,3 +5,7 @@
 [context.branch-deploy]
     publish = "/"
     command = "echo branch"
+
+[[redirects]]
+    from = "https://blog.aaronconway.co.uk"
+    to = "https://aaronconway.co.uk/blog"
