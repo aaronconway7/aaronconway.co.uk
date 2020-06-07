@@ -8,6 +8,8 @@ import Typical from 'react-typical'
 import { DarkModeContext } from '../store/darkMode'
 
 const typedStrings = [
+    `Black Lives Matter.`,
+    1500,
     `Hello World!`,
     500,
     `Hi.`,

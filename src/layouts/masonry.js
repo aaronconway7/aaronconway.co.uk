@@ -23,10 +23,13 @@ const Masonry = ({ cols = 1, mdCols, lgCols, gutter, children }) => {
                     mdCols={mdCols}
                     lgCols={lgCols}
                     gutter={gutter}
+                    key={i}
                 ></StyledMasonryCol>
             ))}
-            {children.map(child => (
-                <div className={`masonry-item`}>{child}</div>
+            {children.map((child, i) => (
+                <div className={`masonry-item`} key={i}>
+                    {child}
+                </div>
             ))}
         </StyledMasonry>
     )

@@ -8,6 +8,8 @@ import SEO from './src/components/SEO'
 import Layout from './src/layouts/layout'
 
 const App = ({ element }) => {
+    if (typeof window !== 'undefined') console.log(`I see you spying 👀`)
+
     return (
         <ContextProvider>
             <SEO />
