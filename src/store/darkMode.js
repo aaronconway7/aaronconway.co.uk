@@ -7,9 +7,8 @@ export const DarkModeProvider = ({ children }) => {
 
     useEffect(() => {
         const root = window.document.documentElement
-        const initialDarkMode = root.style.getPropertyValue(
-            '--initial-dark-mode'
-        )
+        const initialDarkMode =
+            root.style.getPropertyValue('--initial-dark-mode') || true
         setDarkMode(initialDarkMode === `false` ? false : true)
     }, [])
 
