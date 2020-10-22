@@ -20,6 +20,7 @@ import {
 import { FaDog } from 'react-icons/fa'
 import { GoRuby } from 'react-icons/go'
 import { AiOutlineSketch } from 'react-icons/ai'
+import { SiSvelte, SiTailwindcss } from 'react-icons/si'
 import { FiCornerDownLeft } from 'react-icons/fi'
 import 'typeface-ibm-plex-mono'
 import { motion } from 'framer-motion'
@@ -42,8 +43,10 @@ const TECH_LOOKUP = {
     bootstrap: <DiBootstrap style={{ color: `#563d7c` }} />,
     react: <DiReact style={{ color: `#61dafb` }} />,
     angular: <DiAngularSimple style={{ color: `#a70803` }} />,
-    jquery: <DiJqueryLogo color={{ style: `#0669ad` }} />,
-    nodejs: <DiNodejsSmall color={{ style: `#43853d` }} />,
+    jquery: <DiJqueryLogo style={{ color: `#0669ad` }} />,
+    nodejs: <DiNodejsSmall style={{ color: `#43853d` }} />,
+    svelte: <SiSvelte style={{ color: `#ff3e00` }} />,
+    tailwind: <SiTailwindcss style={{ color: `#14b4c6` }} />,
 }
 
 const ProjectPage = ({ data }) => {
