@@ -38,7 +38,7 @@ const socials = [
         name: `github`,
         icon: FiGithub,
         color: `#ffffff`,
-        link: `https://instagram.com/aaronconway7`,
+        link: `https://github.com/aaronconway7`,
     },
     {
         name: `linkedin`,
