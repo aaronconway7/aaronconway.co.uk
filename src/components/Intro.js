@@ -110,9 +110,9 @@ const Intro = () => (
                 I'm Aaron <Emoji emoji={`👋`} label={`Wave`} />
             </h1>
             <p className={`text`}>
-                I’m a <span className={`red`}>designer</span> who can develop. A{' '}
-                <span className={`red`}>developer</span> who can design. One or
-                the other.
+                I’m a <span className={`red`}>developer</span> who can design. A{' '}
+                <span className={`red`}>designer</span> who can develop. One or
+                the other!
             </p>
             <div className={`more-info`}>
                 {moreInfo.map(info => (

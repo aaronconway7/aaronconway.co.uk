@@ -5,9 +5,10 @@ import { motion } from 'framer-motion'
 
 import LineThroughLink from './LineThroughLink'
 import useMobileMenu from '../hooks/use-mobile-menu'
+import CV from '../assets/docs/cv-aaron-conway.pdf'
 
 const StyledMobileMenu = styled(motion.nav)`
-    ${tw`fixed top-0 left-0 w-screen h-screen overflow-auto z-20`}
+    ${tw`fixed top-0 left-0 w-screen h-screen overflow-y-auto overflow-x-hidden z-20`}
     background-color: ${({ theme }) =>
         theme.darkMode
             ? `rgba(24, 24, 24, 0.975)`
@@ -68,6 +69,10 @@ const menu = [
         to: `/#friends`,
     },
     {
+        label: `Résumé`,
+        href: CV,
+    },
+    {
         label: `Blog`,
         to: `/blog`,
     },
@@ -97,6 +102,7 @@ const MobileMenu = () => {
                             <LineThroughLink
                                 className={`link`}
                                 href={item.href}
+                                target={`_blank`}
                                 onClick={toggleMobileMenu}
                             >
                                 {item.label}
