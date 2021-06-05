@@ -11,7 +11,6 @@ const siteMetadata = {
     backgroundColor: `#0e0e0e`,
     themeColor: `#fa4b4a`,
     favicon: `src/assets/img/favicon.png`,
-    socialImage: `src/assets/img/me.jpg`,
 }
 
 module.exports = {

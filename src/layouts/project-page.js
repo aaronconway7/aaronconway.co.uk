@@ -95,7 +95,10 @@ const ProjectPage = ({ data }) => {
                                 {tech.map(
                                     (tech, i) =>
                                         TECH_LOOKUP[tech] && (
-                                            <span className={`tech-icon`}>
+                                            <span
+                                                className={`tech-icon`}
+                                                key={i}
+                                            >
                                                 {TECH_LOOKUP[tech]}
                                             </span>
                                         )
@@ -107,11 +110,12 @@ const ProjectPage = ({ data }) => {
                         <li className={`stat`}>
                             <span className={`stat-label`}>Team Members:</span>
                             <div className={`team-members`}>
-                                {team.map(member => (
+                                {team.map((member, i) => (
                                     <a
                                         className={`member`}
                                         href={member.data.link}
                                         target={`_blank`}
+                                        key={i}
                                     >
                                         <img
                                             src={
@@ -168,8 +172,8 @@ const ProjectPage = ({ data }) => {
                 )}
                 {screenshots && (
                     <div className={`screenshots`}>
-                        {screenshots.localFiles.reverse().map(screen => (
-                            <BrowserScreen>
+                        {screenshots.localFiles.reverse().map((screen, i) => (
+                            <BrowserScreen key={i}>
                                 <Img
                                     className={`screen`}
                                     fluid={screen.childImageSharp.fluid}
@@ -190,7 +194,6 @@ export const query = graphql`
     query($slug: String!) {
         allAirtable(
             filter: { table: { eq: "Projects" }, data: { slug: { eq: $slug } } }
-            sort: {}
         ) {
             edges {
                 node {

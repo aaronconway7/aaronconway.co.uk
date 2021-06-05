@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 
 const BrowserScreen = ({ children }) => (
-    <StyledBrowser class={`browser`}>
+    <StyledBrowser className={`browser`}>
         <div className={`browser-header`}>
             <div className={`close`}></div>
             <div className={`minimise`}></div>

@@ -1,5 +1,7 @@
 import { useStaticQuery, graphql } from 'gatsby'
 
+import SocialImg from '../assets/img/me.jpg'
+
 export const useSiteMetadata = () => {
     const { site } = useStaticQuery(
         graphql`
@@ -10,12 +12,11 @@ export const useSiteMetadata = () => {
                         description
                         author
                         twitter
-                        socialImage
                         backgroundColor
                     }
                 }
             }
         `
     )
-    return site.siteMetadata
+    return { ...site.siteMetadata, socialImage: SocialImg }
 }
