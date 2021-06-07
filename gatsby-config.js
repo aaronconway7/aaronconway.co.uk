@@ -62,6 +62,10 @@ module.exports = {
                         tableName: `Friends`,
                         mapping: { sole: `fileNode`, duo: `fileNode` }, // optional, e.g. "text/markdown", "fileNode"
                     },
+                    {
+                        baseId: `appBUcuPrHrxslrh2`,
+                        tableName: `Uses`,
+                    },
                 ],
             },
         },

@@ -52,25 +52,29 @@ const menu = [
         label: `Home`,
         to: `/#home`,
     },
-    {
-        label: `Intro`,
-        to: `/#intro`,
-    },
-    {
-        label: `Projects`,
-        to: `/#projects`,
-    },
-    {
-        label: `Social`,
-        to: `/#social`,
-    },
-    {
-        label: `Friends`,
-        to: `/#friends`,
-    },
+    // {
+    //     label: `Intro`,
+    //     to: `/#intro`,
+    // },
+    // {
+    //     label: `Projects`,
+    //     to: `/#projects`,
+    // },
+    // {
+    //     label: `Social`,
+    //     to: `/#social`,
+    // },
+    // {
+    //     label: `Friends`,
+    //     to: `/#friends`,
+    // },
     {
         label: `Résumé`,
         href: CV,
+    },
+    {
+        label: `Uses`,
+        to: `/uses`,
     },
     {
         label: `Blog`,
