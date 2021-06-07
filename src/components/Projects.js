@@ -50,7 +50,7 @@ const Projects = () => {
                     Projects <Emoji emoji={`💻`} label={`Laptop`} />
                 </h1>
                 <p className={`text`}>
-                    I am very lucky to have worked with a number of amazing{' '}
+                    I'm very lucky to have worked with a number of amazing{' '}
                     <span className={`red`}>clients</span> & on a number of
                     amazing <span className={`red`}>projects</span>.
                 </p>

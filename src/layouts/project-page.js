@@ -17,10 +17,15 @@ import {
     DiJqueryLogo,
     DiNodejsSmall,
 } from 'react-icons/di'
-import { FaDog } from 'react-icons/fa'
+import { FaDog, FaPaintBrush } from 'react-icons/fa'
 import { GoRuby } from 'react-icons/go'
 import { AiOutlineSketch } from 'react-icons/ai'
-import { SiSvelte, SiTailwindcss } from 'react-icons/si'
+import {
+    SiSvelte,
+    SiTailwindcss,
+    SiVueDotJs,
+    SiNuxtDotJs,
+} from 'react-icons/si'
 import { FiCornerDownLeft } from 'react-icons/fi'
 import 'typeface-ibm-plex-mono'
 import { motion } from 'framer-motion'
@@ -28,6 +33,7 @@ import { motion } from 'framer-motion'
 import Emoji from '../components/Emoji'
 import BrowserScreen from './browser-screen'
 import LineThroughLink from '../components/LineThroughLink'
+import ToolTip from '../components/ToolTip'
 
 const TECH_LOOKUP = {
     illustrator: <DiIllustrator style={{ color: `orange` }} />,
@@ -47,6 +53,9 @@ const TECH_LOOKUP = {
     nodejs: <DiNodejsSmall style={{ color: `#43853d` }} />,
     svelte: <SiSvelte style={{ color: `#ff3e00` }} />,
     tailwind: <SiTailwindcss style={{ color: `#14b4c6` }} />,
+    vue: <SiVueDotJs style={{ color: `#42b983` }} />,
+    nuxt: <SiNuxtDotJs style={{ color: `#00c58e` }} />,
+    procreate: <FaPaintBrush style={{ color: `#de0b5c` }} />,
 }
 
 const ProjectPage = ({ data }) => {
@@ -58,6 +67,7 @@ const ProjectPage = ({ data }) => {
         link,
         date,
         artwork,
+        mobile,
         screenshots,
         tags,
         team,
@@ -93,14 +103,11 @@ const ProjectPage = ({ data }) => {
                             <span className={`stat-label`}>Tech:</span>
                             <div className={`tech`}>
                                 {tech.map(
-                                    (tech, i) =>
+                                    tech =>
                                         TECH_LOOKUP[tech] && (
-                                            <span
-                                                className={`tech-icon`}
-                                                key={i}
-                                            >
+                                            <ToolTip content={tech} key={tech}>
                                                 {TECH_LOOKUP[tech]}
-                                            </span>
+                                            </ToolTip>
                                         )
                                 )}
                             </div>
@@ -159,17 +166,6 @@ const ProjectPage = ({ data }) => {
                 )}
             </div>
             <div className={`img-content`}>
-                {artwork && (
-                    <div className={`artwork`}>
-                        {artwork.localFiles.reverse().map(artwork => (
-                            <Img
-                                className={`img`}
-                                fluid={artwork.childImageSharp.fluid}
-                                alt={`artwork`}
-                            />
-                        ))}
-                    </div>
-                )}
                 {screenshots && (
                     <div className={`screenshots`}>
                         {screenshots.localFiles.reverse().map((screen, i) => (
@@ -180,6 +176,32 @@ const ProjectPage = ({ data }) => {
                                     alt={`screen`}
                                 />
                             </BrowserScreen>
+                        ))}
+                    </div>
+                )}
+                {mobile && (
+                    <div className={`mobile grid gap-4`}>
+                        {mobile.localFiles.reverse().map((screen, i) => (
+                            <Img
+                                className={`screen w-full max-w-sm mx-auto border-8 border-gray-100 rounded-3xl`}
+                                fluid={screen.childImageSharp.fluid}
+                                alt={`mobile screen`}
+                                key={i}
+                            />
+                        ))}
+                    </div>
+                )}
+                {artwork && (
+                    <div className={`artwork grid gap-4`}>
+                        {artwork.localFiles.reverse().map((artwork, i) => (
+                            <Img
+                                className={`img w-full ${artwork.childImageSharp
+                                    .fluid.aspectRatio < 1 &&
+                                    `max-w-sm`} mx-auto`}
+                                fluid={artwork.childImageSharp.fluid}
+                                alt={`artwork`}
+                                key={i}
+                            />
                         ))}
                     </div>
                 )}
@@ -206,6 +228,16 @@ export const query = graphql`
                         link
                         date
                         artwork {
+                            localFiles {
+                                childImageSharp {
+                                    fluid(maxWidth: 1000) {
+                                        ...GatsbyImageSharpFluid
+                                        aspectRatio
+                                    }
+                                }
+                            }
+                        }
+                        mobile {
                             localFiles {
                                 childImageSharp {
                                     fluid(maxWidth: 1000) {
@@ -310,17 +342,7 @@ const StyledProjectPage = styled.div`
 
                 .tech,
                 .team-members {
-                    ${tw`flex flex-wrap`}
-                }
-
-                .tech {
-                    .tech-icon {
-                        ${tw`mr-1`}
-
-                        &:last-child {
-                            ${tw`mr-0`}
-                        }
-                    }
+                    ${tw`flex flex-wrap space-x-1`}
                 }
 
                 .team-members {
@@ -356,7 +378,6 @@ const StyledProjectPage = styled.div`
     }
 
     .img-content {
-        .artwork,
         .screenshots {
             ${tw`grid gap-8`}
             grid-auto-rows: max-content;

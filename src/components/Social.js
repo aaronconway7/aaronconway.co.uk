@@ -77,10 +77,7 @@ const Social = () => (
                 Get in touch <Emoji emoji={`💬`} label={`Message`} />
             </h1>
             <p className={`text`}>
-                If you want to get in touch to work on a cool project or just
-                grab a {` `}
-                <Emoji emoji={`🍻`} label={`beer`} /> or something, you can
-                email me at{' '}
+                If you want to get in touch you can email me at{' '}
                 <LineThroughLink
                     href={`emailto:hello@aaronconway.co.uk`}
                     target={`_blank`}

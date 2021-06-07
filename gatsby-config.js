@@ -54,6 +54,7 @@ module.exports = {
                             thumbnail: `fileNode`,
                             artwork: `fileNode`,
                             screenshots: `fileNode`,
+                            mobile: `fileNode`,
                         },
                     },
                     {
