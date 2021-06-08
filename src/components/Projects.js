@@ -1,5 +1,4 @@
 import React from 'react'
-import { useStaticQuery, graphql } from 'gatsby'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import loadable from '@loadable/component'
@@ -7,41 +6,13 @@ import loadable from '@loadable/component'
 import Emoji from './Emoji'
 import HomeSectionLayout from '../layouts/homeSection'
 import Project from './Project'
+import useProjects from '../hooks/use-projects'
 const Masonry = loadable(() => import('../layouts/masonry'))
 
 const Projects = () => {
     const {
         allAirtable: { edges: projects },
-    } = useStaticQuery(graphql`
-        {
-            allAirtable(
-                filter: {
-                    table: { eq: "Projects" }
-                    data: { show: { eq: true } }
-                }
-                sort: { fields: [data___date], order: DESC }
-            ) {
-                edges {
-                    node {
-                        id
-                        data {
-                            title
-                            slug
-                            thumbnail {
-                                localFiles {
-                                    childImageSharp {
-                                        fluid(maxWidth: 1000) {
-                                            ...GatsbyImageSharpFluid
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    `)
+    } = useProjects()
 
     return (
         <StyledProjects id={`projects`}>

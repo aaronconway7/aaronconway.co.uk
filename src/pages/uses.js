@@ -1,58 +1,21 @@
 import React from 'react'
-import { useStaticQuery, graphql } from 'gatsby'
 import Img from 'gatsby-image'
 
 import LineThroughLink from '../components/LineThroughLink'
 import Layout from '../layouts/homeSection'
+import useUses from '../hooks/use-uses'
 
 const types = [
     { name: `Desk Setup`, img: `deskImg` },
-    { name: `Apps` },
+    { name: `Apps`, img: `appsImg` },
     { name: `Editor & Terminal`, img: `programmingImg` },
     { name: `Podcast`, img: `podcastImg` },
-    { name: `Other` },
-    { name: `Wishlist` },
+    { name: `Other`, img: `otherImg` },
+    { name: `Wishlist`, img: `wishImg` },
 ]
 
 const Uses = () => {
-    const data = useStaticQuery(graphql`
-        {
-            airtable: allAirtable(filter: { table: { eq: "Uses" } }) {
-                edges {
-                    node {
-                        id
-                        data {
-                            name
-                            type
-                            description
-                            link
-                        }
-                    }
-                }
-            }
-            deskImg: file(relativePath: { eq: "uses-desk.jpg" }) {
-                childImageSharp {
-                    fluid {
-                        ...GatsbyImageSharpFluid
-                    }
-                }
-            }
-            podcastImg: file(relativePath: { eq: "uses-podcast.png" }) {
-                childImageSharp {
-                    fluid {
-                        ...GatsbyImageSharpFluid
-                    }
-                }
-            }
-            programmingImg: file(relativePath: { eq: "uses-programming.jpg" }) {
-                childImageSharp {
-                    fluid {
-                        ...GatsbyImageSharpFluid
-                    }
-                }
-            }
-        }
-    `)
+    const data = useUses()
 
     return (
         <Layout>
@@ -90,7 +53,9 @@ const Uses = () => {
                                 alt={`${t.name} Image`}
                                 className={`shadow mb-4`}
                             />
-                            <ul className={`space-y-8 text-3xl`}>
+                            <ul
+                                className={`space-y-4 md:space-y-8 text-xl md:text-3xl`}
+                            >
                                 {typeUses.map(({ node: u }) => (
                                     <li key={u.id}>
                                         <LineThroughLink

@@ -1,5 +1,4 @@
 import React from 'react'
-import { useStaticQuery, graphql } from 'gatsby'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import {
@@ -14,6 +13,7 @@ import FeaturedPost from '../components/FeaturedPost'
 import PostPreview from '../components/PostPreview'
 import Search from '../components/Search'
 import Emoji from '../components/Emoji'
+import useBlog from '../hooks/use-blog'
 
 const searchClient = algoliasearch(
     process.env.GATSBY_ALGOLIA_APP_ID,
@@ -32,32 +32,7 @@ const Results = connectStateResults(
 )
 
 const Home = () => {
-    const data = useStaticQuery(graphql`
-        {
-            posts: allContentfulPost(sort: { fields: date, order: DESC }) {
-                edges {
-                    node {
-                        slug
-                        title
-                        date
-                        featuredImage {
-                            fluid(maxWidth: 1000) {
-                                ...GatsbyContentfulFluid_withWebp
-                            }
-                        }
-                        content {
-                            fields {
-                                excerpt
-                                readingTime {
-                                    text
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    `)
+    const data = useBlog()
 
     return (
         <StyledHome>

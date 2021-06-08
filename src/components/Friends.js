@@ -1,9 +1,9 @@
 import React from 'react'
-import { useStaticQuery, graphql } from 'gatsby'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { motion } from 'framer-motion'
 import Img from 'gatsby-image'
+import useFriends from '../hooks/use-friends'
 
 const StyledFriends = styled.div`
     ${tw`grid grid-cols-2 md:grid-cols-3`}
@@ -31,36 +31,7 @@ const StyledFriends = styled.div`
 const Friends = () => {
     const {
         allAirtable: { edges: friends },
-    } = useStaticQuery(graphql`
-        {
-            allAirtable(
-                filter: {
-                    table: { eq: "Friends" }
-                    data: { friend: { eq: true } }
-                }
-                sort: { fields: [data___name] }
-            ) {
-                edges {
-                    node {
-                        id
-                        data {
-                            name
-                            link
-                            duo {
-                                localFiles {
-                                    childImageSharp {
-                                        fluid(maxWidth: 1000) {
-                                            ...GatsbyImageSharpFluid
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    `)
+    } = useFriends()
 
     return (
         <StyledFriends id={`friends`}>

@@ -107,7 +107,7 @@ export const query = graphql`
             featuredImage {
                 title
                 description
-                fluid(maxWidth: 1000) {
+                fluid(maxWidth: 3000) {
                     ...GatsbyContentfulFluid_withWebp
                 }
             }
