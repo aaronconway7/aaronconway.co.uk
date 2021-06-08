@@ -1,24 +1,23 @@
 import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
+import Img from 'gatsby-image'
 
 import LineThroughLink from '../components/LineThroughLink'
 import Layout from '../layouts/homeSection'
 
 const types = [
-    `Desk Setup`,
-    `Apps`,
-    `Editor & Terminal`,
-    `Podcast`,
-    `Other`,
-    `Wishlist`,
+    { name: `Desk Setup`, img: `deskImg` },
+    { name: `Apps` },
+    { name: `Editor & Terminal`, img: `programmingImg` },
+    { name: `Podcast`, img: `podcastImg` },
+    { name: `Other` },
+    { name: `Wishlist` },
 ]
 
 const Uses = () => {
-    const {
-        allAirtable: { edges: uses },
-    } = useStaticQuery(graphql`
+    const data = useStaticQuery(graphql`
         {
-            allAirtable(filter: { table: { eq: "Uses" } }) {
+            airtable: allAirtable(filter: { table: { eq: "Uses" } }) {
                 edges {
                     node {
                         id
@@ -28,6 +27,27 @@ const Uses = () => {
                             description
                             link
                         }
+                    }
+                }
+            }
+            deskImg: file(relativePath: { eq: "uses-desk.jpg" }) {
+                childImageSharp {
+                    fluid {
+                        ...GatsbyImageSharpFluid
+                    }
+                }
+            }
+            podcastImg: file(relativePath: { eq: "uses-podcast.png" }) {
+                childImageSharp {
+                    fluid {
+                        ...GatsbyImageSharpFluid
+                    }
+                }
+            }
+            programmingImg: file(relativePath: { eq: "uses-programming.jpg" }) {
+                childImageSharp {
+                    fluid {
+                        ...GatsbyImageSharpFluid
                     }
                 }
             }
@@ -59,17 +79,23 @@ const Uses = () => {
             </p>
             <div className={`grid gap-24`}>
                 {types.map(t => {
-                    const typeUses = uses.filter(u => u.node.data.type === t)
+                    const typeUses = data.airtable.edges.filter(
+                        u => u.node.data.type === t.name
+                    )
                     return (
-                        <div className={`grid`}>
-                            <h2 className={`title`}>{t}</h2>
-                            {/* <img src={``} alt={``} /> */}
-                            <ul className={`text space-y-8`}>
+                        <div className={`grid gap-1`}>
+                            <h2 className={`title`}>{t.name}</h2>
+                            <Img
+                                fluid={data[t.img]?.childImageSharp.fluid}
+                                alt={`${t.name} Image`}
+                                className={`shadow mb-4`}
+                            />
+                            <ul className={`space-y-8 text-3xl`}>
                                 {typeUses.map(({ node: u }) => (
                                     <li key={u.id}>
                                         <LineThroughLink
                                             href={u.data.link}
-                                            className={`red`}
+                                            className={`red text-brand-red font-bold`}
                                             target={`_blank`}
                                         >
                                             {u.data.name}

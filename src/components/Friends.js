@@ -72,6 +72,7 @@ const Friends = () => {
                     initial={`rest`}
                     whileHover={`hover`}
                     key={friend.name}
+                    rel={`noopener`}
                 >
                     <motion.div
                         variants={{

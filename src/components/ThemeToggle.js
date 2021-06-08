@@ -11,7 +11,7 @@ const ThemeToggle = () => {
     if (darkMode === undefined) return null
 
     return (
-        <Toggle onClick={toggleDarkMode}>
+        <Toggle onClick={toggleDarkMode} aria-label={`Toggle Theme`}>
             <div className={`wrapper`}>
                 <FiMoon className={`icon moon`} />
                 <FiSun className={`icon sun`} />

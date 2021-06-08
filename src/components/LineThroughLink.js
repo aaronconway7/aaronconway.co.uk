@@ -7,7 +7,11 @@ const LineThroughLink = ({ children, ...rest }) => {
     if (rest.to) {
         return <AnimatedLink {...rest}>{children}</AnimatedLink>
     }
-    return <AnimatedAnchor {...rest}>{children}</AnimatedAnchor>
+    return (
+        <AnimatedAnchor {...rest} rel={`noopener`}>
+            {children}
+        </AnimatedAnchor>
+    )
 }
 
 export default LineThroughLink

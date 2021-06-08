@@ -47,27 +47,11 @@ const StyledMobileMenu = styled(motion.nav)`
     }
 `
 
-const menu = [
+export const menu = [
     {
         label: `Home`,
         to: `/#home`,
     },
-    // {
-    //     label: `Intro`,
-    //     to: `/#intro`,
-    // },
-    // {
-    //     label: `Projects`,
-    //     to: `/#projects`,
-    // },
-    // {
-    //     label: `Social`,
-    //     to: `/#social`,
-    // },
-    // {
-    //     label: `Friends`,
-    //     to: `/#friends`,
-    // },
     {
         label: `Résumé`,
         href: CV,
@@ -89,6 +73,7 @@ const MobileMenu = () => {
         <StyledMobileMenu
             initial={{ y: `-100%` }}
             animate={{ y: 0 }}
+            transition={{ type: `tween` }}
             exit={{ y: `-100%` }}
         >
             <ul>

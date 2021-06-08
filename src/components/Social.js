@@ -66,6 +66,8 @@ const Social = () => (
                         target={`_blank`}
                         whileHover={{ opacity: 1, color: social.color }}
                         key={social.name}
+                        rel={`noopener`}
+                        aria-label={social.name}
                     >
                         <Icon className={`icon`} />
                     </motion.a>
