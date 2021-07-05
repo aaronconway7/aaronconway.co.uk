@@ -1,10 +1,61 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
+import { BsArrowRightShort, BsArrowLeftShort } from 'react-icons/bs'
 
 import Emoji from './Emoji'
-import LineThroughLink from './LineThroughLink'
 import HomeSectionLayout from '../layouts/homeSection'
+import Timeline from './Timeline'
+
+const Intro = () => {
+    const [timelineOffset, setTimelineOffset] = useState(0)
+
+    return (
+        <StyledIntro id={`intro`}>
+            <HomeSectionLayout>
+                <h1 className={`title`}>
+                    I'm Aaron <Emoji emoji={`👋`} label={`Wave`} />
+                </h1>
+                <p className={`text`}>
+                    I’m a <span className={`red`}>developer</span> who can
+                    design. A <span className={`red`}>designer</span> who can
+                    develop. One or the other!
+                </p>
+                <div
+                    className={`timeline-container relative mt-8 md:mt-16 pl-12 overflow-x-hidden`}
+                >
+                    <Timeline offset={timelineOffset} />
+                    <div
+                        className={`timeline-fade absolute top-0 left-0 w-full h-full`}
+                    />
+                    <div
+                        className={`flex space-x-2 absolute right-0 top-0 mt-10`}
+                    >
+                        <button
+                            className={`rounded border-2 p-1 text-3xl opacity-50 hover:bg-brand-red hover:opacity-100`}
+                            onClick={() =>
+                                setTimelineOffset(prev => prev + 100)
+                            }
+                            disabled={timelineOffset === 0}
+                        >
+                            <BsArrowLeftShort />
+                        </button>
+                        <button
+                            className={`rounded border-2 p-1 text-3xl opacity-50 hover:bg-brand-red hover:opacity-100`}
+                            onClick={() =>
+                                setTimelineOffset(prev => prev - 100)
+                            }
+                        >
+                            <BsArrowRightShort />
+                        </button>
+                    </div>
+                </div>
+            </HomeSectionLayout>
+        </StyledIntro>
+    )
+}
+
+export default Intro
 
 const StyledIntro = styled.section`
     .more-info {
@@ -21,138 +72,14 @@ const StyledIntro = styled.section`
             }
         }
     }
+
+    .timeline-fade {
+        background: linear-gradient(
+            90deg,
+            rgba(14, 14, 14, 1) 0%,
+            rgba(0, 0, 0, 0) 5%,
+            rgba(0, 0, 0, 0) 60%,
+            rgba(14, 14, 14, 1) 95%
+        );
+    }
 `
-
-const moreInfo = [
-    {
-        title: `Where`,
-        items: [
-            {
-                preEmoji: {
-                    emoji: `🏠`,
-                    label: `Home`,
-                },
-                text: `Rainham`,
-                postEmoji: {
-                    emoji: `🇬🇧`,
-                    label: `UK`,
-                },
-            },
-            {
-                preEmoji: {
-                    emoji: `🏢`,
-                    label: `Office`,
-                },
-                text: `London`,
-                postEmoji: {
-                    emoji: `🇬🇧`,
-                    label: `UK`,
-                },
-            },
-        ],
-    },
-    {
-        title: `Now`,
-        items: [
-            {
-                preEmoji: {
-                    emoji: `⚽`,
-                    label: `Football`,
-                },
-                text: `Arcspire`,
-                link: `https://arcspire.io`,
-            },
-            {
-                preEmoji: {
-                    emoji: `🎙️`,
-                    label: `Microphone`,
-                },
-                text: `The Third Wheel`,
-                link: `https://thethirdwheel.fm`,
-            },
-        ],
-    },
-    {
-        title: `Previous`,
-        items: [
-            {
-                preEmoji: {
-                    emoji: `🇺🇸`,
-                    label: `USA`,
-                },
-                text: `Finvoice`,
-                link: `https://finvoice.co`,
-            },
-            {
-                preEmoji: {
-                    emoji: `🌉`,
-                    label: `Golden Gate Bridge`,
-                },
-                text: `SVIP`,
-                link: `https://siliconvalleyinternship.com/`,
-            },
-            {
-                preEmoji: {
-                    emoji: `🎓`,
-                    label: `Graduation Hat`,
-                },
-                text: `The University of Warwick`,
-                link: `https://warwick.ac.uk/`,
-            },
-        ],
-    },
-]
-
-const Intro = () => (
-    <StyledIntro id={`intro`}>
-        <HomeSectionLayout>
-            <h1 className={`title`}>
-                I'm Aaron <Emoji emoji={`👋`} label={`Wave`} />
-            </h1>
-            <p className={`text`}>
-                I’m a <span className={`red`}>developer</span> who can design. A{' '}
-                <span className={`red`}>designer</span> who can develop. One or
-                the other!
-            </p>
-            <div className={`more-info`}>
-                {moreInfo.map(info => (
-                    <div className={`info`} key={info.title}>
-                        <h2 className={`info-title`}>{info.title}</h2>
-                        <ul>
-                            {info.items.map(item => (
-                                <li key={item.text}>
-                                    {item.preEmoji && (
-                                        <Emoji
-                                            emoji={item.preEmoji.emoji}
-                                            label={item.preEmoji.label}
-                                        />
-                                    )}
-                                    <span className={`item-text`}>
-                                        {item.link ? (
-                                            <LineThroughLink
-                                                href={item.link}
-                                                target={`_blank`}
-                                            >
-                                                {item.text}
-                                            </LineThroughLink>
-                                        ) : (
-                                            item.text
-                                        )}
-                                    </span>
-                                    {item.postEmoji && (
-                                        <Emoji
-                                            emoji={item.postEmoji.emoji}
-                                            label={item.postEmoji.label}
-                                        />
-                                    )}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                ))}
-            </div>
-        </HomeSectionLayout>
-    </StyledIntro>
-)
-
-export default Intro
