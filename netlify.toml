@@ -5,3 +5,7 @@
 [context.branch-deploy]
     publish = "/"
     command = "echo branch"
+
+[context."v3"]
+    publish = "public"
+    command = "yarn build"
