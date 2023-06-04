@@ -4,4 +4,4 @@
 
 [context.v1]
     publish = "/"
-    command = ""
+    command = "echo '--- deploying v1 ---'"
