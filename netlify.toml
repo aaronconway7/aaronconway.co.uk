@@ -3,5 +3,5 @@
     command = "yarn build"
 
 [context.v1]
-    publish = "/"
-    command = "echo '--- deploying v1 ---'"
+    publish = "test"
+    command = ""
