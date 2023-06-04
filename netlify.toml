@@ -2,6 +2,6 @@
     publish = "public"
     command = "yarn build"
 
-[context.branch-deploy]
+[context.v1]
     publish = "/"
-    command = "echo branch"
+    command = ""
