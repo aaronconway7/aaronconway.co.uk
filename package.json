@@ -1,83 +1,25 @@
 {
-    "name": "aaronconway.co.uk",
-    "private": false,
-    "description": "My Personal Website",
-    "version": "1.0.0",
-    "author": "Aaron Conway <hello@aaronconway.co.uk> (https://aaronconway.co.uk)",
-    "keywords": [
-        "gatsby"
-    ],
-    "license": "MIT",
-    "scripts": {
-        "build": "gatsby build",
-        "develop": "gatsby develop",
-        "dev": "gatsby develop",
-        "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-        "start": "gatsby develop",
-        "serve": "gatsby serve",
-        "clean": "gatsby clean",
-        "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
-    },
-    "husky": {
-        "hooks": {
-            "pre-commit": "pretty-quick --staged"
-        }
-    },
-    "dependencies": {
-        "@contentful/rich-text-plain-text-renderer": "^14.0.0",
-        "@contentful/rich-text-react-renderer": "^13.4.0",
-        "@contentful/rich-text-types": "^14.1.0",
-        "@loadable/component": "^5.12.0",
-        "@tippyjs/react": "^4.2.5",
-        "algoliasearch": "^4.1.0",
-        "colcade": "^0.2.0",
-        "dotenv": "^8.2.0",
-        "esm": "^3.2.25",
-        "framer-motion": "^1.10.3",
-        "gatsby": "^2.19.43",
-        "gatsby-image": "^2.2.43",
-        "gatsby-plugin-algolia": "^0.7.0",
-        "gatsby-plugin-canonical-urls": "^2.1.22",
-        "gatsby-plugin-google-analytics": "^2.1.38",
-        "gatsby-plugin-manifest": "^2.2.47",
-        "gatsby-plugin-nprogress": "^2.2.3",
-        "gatsby-plugin-offline": "^3.1.2",
-        "gatsby-plugin-postcss": "^2.2.1",
-        "gatsby-plugin-react-helmet": "^3.1.23",
-        "gatsby-plugin-robots-txt": "^1.5.0",
-        "gatsby-plugin-sharp": "^2.4.12",
-        "gatsby-plugin-styled-components": "^3.1.21",
-        "gatsby-source-airtable": "^2.1.0",
-        "gatsby-source-contentful": "^2.2.9",
-        "gatsby-source-filesystem": "^2.1.55",
-        "gatsby-transformer-sharp": "^2.3.18",
-        "node-sass": "^4.13.1",
-        "react": "^16.12.0",
-        "react-dom": "^16.12.0",
-        "react-helmet": "^5.2.1",
-        "react-icons": "^3.9.0",
-        "react-instantsearch-dom": "^6.4.0",
-        "react-typical": "^0.1.3",
-        "reading-time": "^1.2.0",
-        "styled-components": "^5.0.1",
-        "typeface-ibm-plex-mono": "^0.0.61",
-        "typeface-poppins": "^0.0.72"
-    },
-    "devDependencies": {
-        "autoprefixer": "^9.7.4",
-        "babel-plugin-styled-components": "^1.10.7",
-        "gatsby-plugin-purgecss": "^4.0.1",
-        "husky": "^4.2.3",
-        "prettier": "^1.19.1",
-        "pretty-quick": "^2.0.1",
-        "tailwindcss": "^1.2.0",
-        "twin.macro": "^1.0.0-alpha.7"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/aaronconway7/create-gatsby-app"
-    },
-    "bugs": {
-        "url": "https://github.com/aaronconway7/create-gatsby-app/issues"
-    }
+	"name": "aaronconway.co.uk",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
+		"lint": "prettier --plugin-search-dir . --check .",
+		"format": "prettier --plugin-search-dir . --write ."
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "^2.0.0",
+		"@sveltejs/kit": "^1.5.0",
+		"prettier": "^2.8.0",
+		"prettier-plugin-svelte": "^2.8.1",
+		"svelte": "^3.54.0",
+		"svelte-check": "^3.0.1",
+		"typescript": "^5.0.0",
+		"vite": "^4.3.0"
+	},
+	"type": "module"
 }
