@@ -6,35 +6,38 @@ import panini1996 from "../assets/images/panini-sticker-1996.png";
 
 <Layout title="AC7">
     <main>
-        <section class="min-h-screen grid place-items-center" id="ex1">
+        <section id="hero">
             <Image
                 src={panini1996}
                 alt="Aaron Conway as a panini sticker from 1996"
-                class={"w-1/2 max-h-96 object-contain filter drop-shadow-xl"}
-                id={"ex1-layer"}
+                id={"hero-panini-sticker"}
             />
         </section>
     </main>
 </Layout>
 
 <style>
-    img {
-        aspect-ratio: 1;
-        -webkit-mask: linear-gradient(135deg, #000c 40%, #000, #000c 60%) 100%
-            100%/250% 250%;
-        transition: -webkit-mask 2s;
+    section {
+        display: grid;
+        place-items: center;
+        padding: 48px 0px;
+        min-height: 100dvh;
     }
-    img:hover {
-        -webkit-mask-position: 0 0;
+    img {
+        width: 50%;
+        max-height: 400px;
+        object-fit: contain;
+        filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 1));
+        z-index: 1;
     }
 </style>
 
 <script>
-    let constrain = 200;
-    let mouseOverContainer = document.getElementById("ex1");
-    let ex1Layer = document.getElementById("ex1-layer");
+    const constrain = 200;
+    const hero = document.getElementById("hero");
+    const sticker = document.getElementById("hero-panini-sticker");
 
-    function transforms(x, y, el) {
+    function transforms(x: number, y: number, el: HTMLElement): string {
         let box = el.getBoundingClientRect();
         let calcX = -(y - box.y - box.height / 2) / constrain;
         let calcY = (x - box.x - box.width / 2) / constrain;
@@ -50,16 +53,21 @@ import panini1996 from "../assets/images/panini-sticker-1996.png";
         );
     }
 
-    function transformElement(el, xyEl) {
-        el.style.transform = transforms.apply(null, xyEl);
+    function transformElement(
+        el: HTMLElement,
+        xyEl: [number, number, HTMLElement],
+    ) {
+        el.style.transform = transforms(...xyEl);
     }
 
-    mouseOverContainer.onmousemove = function (e) {
-        let xy = [e.clientX, e.clientY];
-        let position = xy.concat([ex1Layer]);
+    hero?.addEventListener("mousemove", (e: MouseEvent) => {
+        if (!sticker) return;
+        let xy: [number, number] = [e.clientX, e.clientY];
+        let position: [number, number, HTMLElement] = [...xy, sticker];
 
         window.requestAnimationFrame(function () {
-            transformElement(ex1Layer, position);
+            if (!sticker) return;
+            transformElement(sticker, position);
         });
-    };
+    });
 </script>
