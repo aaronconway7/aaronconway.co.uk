@@ -6,6 +6,9 @@ interface Props {
 }
 
 const { title } = Astro.props;
+
+import { Image } from "astro:assets";
+import cursor from "../assets/images/cursor.png";
 ---
 
 <!doctype html>
@@ -20,6 +23,7 @@ const { title } = Astro.props;
     </head>
     <body>
         <slot />
+        <Image id={"cursor"} src={cursor} alt="" />
     </body>
 </html>
 
@@ -32,4 +36,31 @@ const { title } = Astro.props;
     body {
         background: radial-gradient(#2a2d31, black);
     }
+
+    #cursor {
+        position: absolute;
+        z-index: 9999;
+    }
 </style>
+
+<script>
+    let mouseX = 0,
+        mouseY = 0;
+    let xp = 0,
+        yp = 0;
+
+    document.addEventListener("mousemove", function (e) {
+        mouseX = e.pageX - 30;
+        mouseY = e.pageY - 30;
+    });
+
+    setInterval(function () {
+        xp += (mouseX - xp) / 6;
+        yp += (mouseY - yp) / 6;
+        const cursor = document.getElementById("cursor");
+        if (cursor) {
+            cursor.style.left = xp + "px";
+            cursor.style.top = yp + "px";
+        }
+    }, 20);
+</script>
