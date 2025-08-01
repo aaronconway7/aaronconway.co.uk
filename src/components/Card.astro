@@ -1,5 +1,5 @@
 <div class="scene">
-  <span class="arrow arrow--debug">
+  <span class="arrow">
     <span>:hover, tap</span>
     <svg viewBox="0 0 122 97" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -48,15 +48,6 @@
         </div>
         <!-- when you're working with these layers, you need to think differently -->
         <!-- blended layers -->
-        <!-- don't worry about this block, it's just a debugging layer to break it down -->
-        <div class="debug">
-          <div class="refraction refraction--debug"></div>
-          <div class="refraction refraction--debug"></div>
-        </div>
-        <div class="debug debug--clipped">
-          <div class="refraction refraction--debug"></div>
-          <div class="refraction refraction--debug"></div>
-        </div>
 
         <!-- perhaps this is a holographic texture that acts as a mask -->
         <!-- then you show a nice color gradient through it but then mask it as a whole dynamically -->
@@ -264,7 +255,6 @@
     });
   };
   const UPDATE = ({ x, y }) => {
-    if (config.debug) return;
     const BOUNDS = CARD.getBoundingClientRect();
     // Calculate the range between the center and the pointer position.
     const posX = x - BOUNDS.x;
@@ -417,41 +407,38 @@
       transition: opacity 0.26s ease-out;
       /* TODO: change to match theme */
       color: white;
+      top: 50%;
+      left: 50%;
+      rotate: 10deg;
+      translate: calc(-40% + var(--card-width) * -1) 0;
+      width: 80px;
+      z-index: 99999;
 
-      &.arrow--debug {
-        top: 50%;
-        left: 50%;
+      @media (max-width: 580px) {
+        translate: -50% calc(var(--card-width) * 7 / 5 * 0.5);
+      }
+
+      span {
+        display: inline-block;
+        rotate: -24deg;
+        translate: 30% 100%;
+        @media (max-width: 580px) {
+          translate: 80% 160%;
+        }
+      }
+      svg {
         rotate: 10deg;
-        translate: calc(-40% + var(--card-width) * -1) 0;
-        width: 80px;
-        z-index: 99999;
+        scale: 1 -1;
+        translate: 120% 20%;
+        rotate: -25deg;
+        left: 0%;
+        width: 80%;
 
         @media (max-width: 580px) {
-          translate: -50% calc(var(--card-width) * 7 / 5 * 0.5);
-        }
-
-        span {
-          display: inline-block;
-          rotate: -24deg;
-          translate: 30% 100%;
-          @media (max-width: 580px) {
-            translate: 80% 160%;
-          }
-        }
-        svg {
-          rotate: 10deg;
-          scale: 1 -1;
-          translate: 120% 20%;
-          rotate: -25deg;
-          left: 0%;
-          width: 80%;
-
-          @media (max-width: 580px) {
-            rotate: 190deg;
-            top: unset;
-            bottom: 100%;
-            translate: 0 0;
-          }
+          rotate: 190deg;
+          top: unset;
+          bottom: 100%;
+          translate: 0 0;
         }
       }
     }
@@ -514,12 +501,9 @@
       transition: opacity 0.2s ease-out;
     }
 
-    .card[data-active="true"]:hover :not(.debug) .refraction,
+    .card[data-active="true"]:hover .refraction,
     .card[data-active="true"]:hover .spotlight::before {
       opacity: 1;
-    }
-    :is(.debug:not(.debug--clipped) .refraction) {
-      opacity: 0.2;
     }
   }
 
@@ -571,7 +555,6 @@
         pointer-events: none;
       }
 
-      .debug,
       .img,
       .pattern,
       .spotlight,
@@ -584,30 +567,6 @@
         position: absolute;
         inset: 0;
         border-radius: var(--border);
-      }
-
-      .debug {
-        opacity: 0;
-        visibility: hidden;
-
-        &::after {
-          content: "";
-          position: absolute;
-          inset: 0;
-          border: 4px dashed canvasText;
-          border-radius: var(--border);
-        }
-
-        &.debug--clipped {
-          clip-path: inset(0 0 0 0 round var(--border));
-
-          .refraction {
-            opacity: 1;
-          }
-        }
-        .refraction {
-          opacity: 0.2;
-        }
       }
 
       .card__emboss {
@@ -626,7 +585,7 @@
         backface-visibility: hidden;
       }
 
-      .card__front > *:not(.debug:not(.debug--clipped)) {
+      .card__front > * {
         clip-path: inset(0 0 0 0 round var(--border));
       }
 
