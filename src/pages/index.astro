@@ -1,6 +1,6 @@
 ---
-import sticker from "../assets/sticker-trim.png";
 import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
@@ -8,89 +8,6 @@ import Layout from "../layouts/Layout.astro";
 
 <Layout>
   <div class="grid place-items-center h-dvh">
-    <div id="holographic-container" class="relative perspective-1000">
-      <div class="transform-container">
-        <img
-          src={sticker.src}
-          class="max-h-[50vh] -rotate-3 shadow-2xl transition-transform duration-100"
-          id="holographic-image"
-        />
-        <div id="shine-overlay" class="shine-overlay"></div>
-      </div>
-    </div>
+    <Card />
   </div>
 </Layout>
-
-<style>
-  .perspective-1000 {
-    perspective: 1000px;
-  }
-
-  .transform-container {
-    transform-style: preserve-3d;
-    position: relative;
-  }
-
-  .shine-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-      45deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.1) 45%,
-      rgba(255, 255, 255, 0.5) 50%,
-      rgba(255, 255, 255, 0.1) 55%,
-      transparent 100%
-    );
-    mix-blend-mode: overlay;
-    pointer-events: none;
-    transition: transform 0.1s ease-out;
-    transform-style: preserve-3d;
-  }
-</style>
-
-<script>
-  const container = document.getElementById("holographic-container");
-  const transformContainer = container?.querySelector(
-    ".transform-container"
-  ) as HTMLElement;
-  const image = document.getElementById("holographic-image");
-  const shineOverlay = document.getElementById("shine-overlay");
-
-  if (container && transformContainer && image && shineOverlay) {
-    document.addEventListener("mousemove", (e) => {
-      const { clientX, clientY } = e;
-      const { left, top, width, height } = container.getBoundingClientRect();
-
-      // Calculate mouse position relative to the container
-      const x = (clientX - left) / width;
-      const y = (clientY - top) / height;
-
-      // Calculate rotation values (max 15 degrees)
-      const rotateY = (x - 0.5) * 30;
-      const rotateX = (y - 0.5) * -30;
-
-      // Apply the transform to the container
-      transformContainer.style.transform = `
-        rotate3d(1, 0, 0, ${rotateX}deg)
-        rotate3d(0, 1, 0, ${rotateY}deg)
-        scale3d(1.05, 1.05, 1.05)
-      `;
-
-      // Update shine position
-      const shineX = (x - 0.5) * 30;
-      const shineY = (y - 0.5) * 30;
-      shineOverlay.style.transform = `translate3d(${shineX}px, ${shineY}px, 0)`;
-    });
-
-    // Reset transform when mouse leaves the window
-    document.addEventListener("mouseleave", () => {
-      transformContainer.style.transform =
-        "rotate3d(0, 0, 0, 0deg) scale3d(1, 1, 1)";
-      shineOverlay.style.transform = "translate3d(0, 0, 0)";
-    });
-  }
-</script>
