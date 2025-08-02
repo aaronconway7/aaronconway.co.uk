@@ -1,0 +1,206 @@
+---
+// Social media links - you can customize these with your actual profiles
+const socialLinks = [
+  { name: "GitHub", url: "https://github.com/yourusername", icon: "🐙" },
+  { name: "LinkedIn", url: "https://linkedin.com/in/yourusername", icon: "💼" },
+  { name: "Twitter", url: "https://twitter.com/yourusername", icon: "🐦" },
+  { name: "Instagram", url: "https://instagram.com/yourusername", icon: "📸" },
+  //   { name: "YouTube", url: "https://youtube.com/@yourusername", icon: "📺" },
+  //   { name: "Portfolio", url: "https://yourportfolio.com", icon: "🎨" },
+  //   { name: "Blog", url: "https://yourblog.com", icon: "✍️" },
+  { name: "Email", url: "mailto:your.email@example.com", icon: "📧" },
+];
+---
+
+<div class="social-banner-container">
+  <div class="social-banner">
+    <div class="social-banner-content">
+      <p class="bg-black text-[#FFF302] px-2 font-bold">BREAKING NEWS</p>
+      {
+        socialLinks.map((link) => (
+          <a
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link"
+            title={link.name}
+          >
+            <span class="social-icon">{link.icon}</span>
+            <span class="social-name">{link.name}</span>
+          </a>
+        ))
+      }
+    </div>
+    <div class="social-banner-content" aria-hidden="true">
+      <p class="bg-black text-[#FFF302] px-2 font-bold">BREAKING NEWS</p>
+      {
+        socialLinks.map((link) => (
+          <a
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link"
+            title={link.name}
+          >
+            <span class="social-icon">{link.icon}</span>
+            <span class="social-name">{link.name}</span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .social-banner-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff302;
+    border-top: 1px solid #333;
+    overflow: hidden;
+    z-index: 1000;
+    transform: translateY(100%);
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .social-banner-container.slide-in {
+    transform: translateY(0);
+  }
+
+  .social-banner {
+    display: flex;
+    width: 200%;
+    animation: scroll 20s linear infinite;
+    will-change: transform;
+  }
+
+  .social-banner-content {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding-right: 2rem;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #000;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+  }
+
+  .social-icon {
+    font-size: 1.2rem;
+    filter: grayscale(0.3);
+    transition: filter 0.3s ease;
+  }
+
+  .social-link:hover .social-icon {
+    filter: grayscale(0);
+  }
+
+  .social-name {
+    font-family: "Sora", sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Pause animation on hover */
+  .social-banner-container:hover .social-banner {
+    animation-play-state: paused;
+  }
+</style>
+
+<script>
+  // Wait for the arrow to appear (which happens after the card animation completes)
+  const observeArrow = () => {
+    const arrow = document.querySelector(".arrow");
+    if (!arrow) {
+      // If arrow doesn't exist yet, try again in 100ms
+      setTimeout(observeArrow, 100);
+      return;
+    }
+
+    // Create an observer to watch for opacity changes on the arrow
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "style"
+        ) {
+          const arrowOpacity = window.getComputedStyle(arrow).opacity;
+          if (parseFloat(arrowOpacity) > 0.5) {
+            // Arrow is visible, trigger banner slide-in with a small delay
+            setTimeout(() => {
+              const banner = document.querySelector(".social-banner-container");
+              if (banner) {
+                banner.classList.add("slide-in");
+              }
+            }, 300); // 300ms delay after arrow appears
+            observer.disconnect(); // Stop observing
+          }
+        }
+      });
+    });
+
+    // Also check for changes in computed styles
+    const checkArrowVisibility = () => {
+      const arrowOpacity = window.getComputedStyle(arrow).opacity;
+      if (parseFloat(arrowOpacity) > 0.5) {
+        setTimeout(() => {
+          const banner = document.querySelector(".social-banner-container");
+          if (banner) {
+            banner.classList.add("slide-in");
+          }
+        }, 300);
+        return true;
+      }
+      return false;
+    };
+
+    // Check immediately
+    if (!checkArrowVisibility()) {
+      // If not visible yet, start observing
+      observer.observe(arrow, {
+        attributes: true,
+        attributeFilter: ["style"],
+      });
+
+      // Also poll periodically as a fallback
+      const pollInterval = setInterval(() => {
+        if (checkArrowVisibility()) {
+          clearInterval(pollInterval);
+          observer.disconnect();
+        }
+      }, 100);
+
+      // Clean up after 10 seconds
+      setTimeout(() => {
+        clearInterval(pollInterval);
+        observer.disconnect();
+      }, 10000);
+    }
+  };
+
+  // Start observing when DOM is ready
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", observeArrow);
+  } else {
+    observeArrow();
+  }
+</script>
