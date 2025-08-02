@@ -19,7 +19,7 @@ import MatchAttax from "../assets/match-attax.png";
   </span>
   <article class="card" data-active="false">
     <button aria-label="Flip card" aria-pressed="false"></button>
-    <div class="card__content">
+    <div class="card__content shadow-2xl shadow-black">
       <div class="card__rear card__face">
         <img class="backdrop --img" src={PLBackdrop1.src} alt="" />
         <div class="card__emboss">
@@ -525,9 +525,11 @@ import MatchAttax from "../assets/match-attax.png";
     }
     .scene {
       perspective: 1000px;
-      position: fixed;
+      position: absolute;
+      overflow: hidden;
       inset: 0;
       transform: translate3d(0, 0, 100vmin);
+      height: 100dvh;
     }
     .card {
       --ratio-x: 0;
