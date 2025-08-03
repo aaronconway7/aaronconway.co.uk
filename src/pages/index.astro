@@ -1,6 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
+import CV from "../assets/cv-aaron-conway.pdf";
+import Memoji from "../assets/memoji.webp";
 ---
 
 <Layout>
@@ -9,6 +11,30 @@ import Card from "../components/Card.astro";
       class="bg-[url(../assets/static.gif)] absolute left-0 top-0 w-screen h-screen opacity-10"
     >
     </div>
+    <nav
+      class="bg-[#302e2c99] fixed top-8 right-8 backdrop-blur-lg rounded-3xl py-2 px-4 z-10 flex gap-1 items-center"
+    >
+      <img src={Memoji.src} class="h-12" />
+      <ul class="flex">
+        <li>
+          <a
+            class="link text-[#eeebdd] uppercase hover:underline hover:text-pink-500 font-[JetBrains_Mono_Variable] tracking-wide p-3 leading-[1] underline-offset-4"
+            href={CV}
+            target="_blank"
+          >
+            CV
+          </a>
+        </li>
+      </ul>
+    </nav>
     <Card />
   </main>
 </Layout>
+
+<style>
+  .link {
+    transition:
+      background-color 0.2s cubic-bezier(0.165, 0.84, 0.44, 1),
+      color 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+</style>
