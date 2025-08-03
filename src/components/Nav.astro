@@ -1,0 +1,396 @@
+---
+import CV from "../assets/cv-aaron-conway.pdf";
+import Memoji from "../assets/memoji.webp";
+
+// Navigation configuration - easy to maintain and extend
+const navItems = [
+  {
+    id: "cv",
+    name: "CV",
+    type: "link", // standalone link
+    url: CV,
+    target: "_blank",
+  },
+  {
+    id: "socials",
+    name: "Socials",
+    type: "parent", // has children
+    children: [
+      {
+        name: "Twitter",
+        url: "https://twitter.com/aaronconway7",
+      },
+      {
+        name: "Instagram",
+        url: "https://instagram.com/aaronconway7",
+      },
+    ],
+  },
+  {
+    id: "projects",
+    name: "Projects",
+    type: "parent", // has children
+    children: [
+      {
+        name: "TaskFlow",
+        url: "https://github.com/aaronconway7/taskflow",
+      },
+      {
+        name: "WeatherNow",
+        url: "https://github.com/aaronconway7/weathernow",
+      },
+      {
+        name: "ChatBot",
+        url: "https://github.com/aaronconway7/chatbot",
+      },
+      {
+        name: "ECommerce",
+        url: "https://github.com/aaronconway7/ecommerce",
+      },
+      {
+        name: "BlogEngine",
+        url: "https://github.com/aaronconway7/blogengine",
+      },
+      {
+        name: "Gallery",
+        url: "https://github.com/aaronconway7/gallery",
+      },
+      {
+        name: "Dashboard",
+        url: "https://github.com/aaronconway7/dashboard",
+      },
+      {
+        name: "Calculator",
+        url: "https://github.com/aaronconway7/calculator",
+      },
+      {
+        name: "TodoApp",
+        url: "https://github.com/aaronconway7/todoapp",
+      },
+      {
+        name: "MusicPlayer",
+        url: "https://github.com/aaronconway7/musicplayer",
+      },
+    ],
+  },
+];
+---
+
+<nav
+  class="nav bg-[#302e2c99] fixed top-8 right-8 backdrop-blur-lg rounded-3xl py-2 px-6 z-10 flex gap-4 items-center opacity-0 overflow-hidden"
+>
+  <button
+    id="nav-toggle"
+    class="nav-icon flex items-center justify-center cursor-pointer"
+  >
+    <img id="memoji" src={Memoji.src} class="h-12" />
+    <svg
+      id="back-icon"
+      class="text-[var(--off-white)] hidden h-6"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+    </svg>
+  </button>
+
+  <div class="nav-container relative flex-1 flex">
+    <!-- Main Navigation -->
+    <ul id="main-nav" class="flex gap-4 items-center whitespace-nowrap">
+      {
+        navItems.map((item) => (
+          <li>
+            {item.type === "link" ? (
+              <a
+                class="link text-[var(--off-white)] uppercase hover:underline hover:text-pink-500 font-[JetBrains_Mono_Variable] tracking-wide leading-[1] underline-offset-4"
+                href={item.url}
+                target={item.target || "_self"}
+              >
+                {item.name}
+              </a>
+            ) : (
+              <button
+                id={`${item.id}-btn`}
+                class="link text-[var(--off-white)] uppercase hover:underline hover:text-pink-500 font-[JetBrains_Mono_Variable] tracking-wide leading-[1] underline-offset-4 cursor-pointer"
+              >
+                {item.name}
+              </button>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+
+    <!-- Child Navigations -->
+    {
+      navItems
+        .filter((item) => item.type === "parent")
+        .map((parentItem) => (
+          <ul
+            id={`${parentItem.id}-nav`}
+            class="flex gap-4 items-center absolute top-0 left-0 whitespace-nowrap h-full"
+          >
+            {parentItem.children.map((child) => (
+              <li>
+                <a
+                  class="link text-[var(--off-white)] uppercase hover:underline hover:text-pink-500 font-[JetBrains_Mono_Variable] tracking-wide leading-[1] underline-offset-4"
+                  href={child.url}
+                  target="_blank"
+                >
+                  {child.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        ))
+    }
+  </div>
+</nav>
+
+<style>
+  :root {
+    --off-white: #eeebdd;
+  }
+
+  .link {
+    transition:
+      background-color 0.2s cubic-bezier(0.165, 0.84, 0.44, 1),
+      color 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  .nav-icon {
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  .nav-icon:hover {
+    transform: scale(1.05);
+  }
+
+  nav {
+    width: max-content;
+  }
+
+  .nav-container {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    overflow: visible;
+    min-height: 48px;
+    width: max-content;
+  }
+
+  #main-nav,
+  [id$="-nav"] {
+    transform-style: preserve-3d;
+    transform-origin: center center;
+    width: max-content;
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const navToggle = document.getElementById("nav-toggle");
+    const mainNav = document.getElementById("main-nav");
+    const memoji = document.getElementById("memoji");
+    const backIcon = document.getElementById("back-icon");
+    const navContainer = document.querySelector(".nav-container");
+
+    let currentMode = "main";
+    let isAnimating = false;
+
+    // Build navigation structure from config
+    const navConfig = {
+      main: { nav: mainNav, width: 0 },
+    };
+
+    // Find all child nav elements (they have IDs ending with "-nav" but not "main-nav")
+    const childNavs = document.querySelectorAll('[id$="-nav"]:not(#main-nav)');
+
+    childNavs.forEach((navElement) => {
+      const navId = navElement.id.replace("-nav", "");
+
+      // Initial setup - position sub navs below main nav
+      gsap.set(navElement, { rotationX: 90, transformOrigin: "center bottom" });
+
+      // Temporarily make visible to measure width
+      gsap.set(navElement, { visibility: "visible", position: "static" });
+      const width = navElement.offsetWidth;
+      gsap.set(navElement, { visibility: "hidden", position: "absolute" });
+
+      // Add to nav config
+      navConfig[navId] = { nav: navElement, width: width };
+    });
+
+    // Measure main nav width last (after all measurements)
+    navConfig.main.width = mainNav.offsetWidth;
+
+    // Set initial container width to main nav width
+    gsap.set(navContainer, { width: navConfig.main.width });
+
+    function navigateTo(targetMode) {
+      if (isAnimating || currentMode === targetMode || !navConfig[targetMode])
+        return;
+
+      isAnimating = true;
+      const fromMode = currentMode;
+      currentMode = targetMode;
+
+      const tl = gsap.timeline({
+        onComplete: () => {
+          isAnimating = false;
+        },
+      });
+
+      const fromNav = navConfig[fromMode];
+      const toNav = navConfig[targetMode];
+
+      // Animate container width
+      tl.to(navContainer, {
+        width: toNav.width,
+        duration: 0.25,
+        ease: "power2.inOut",
+      });
+
+      if (targetMode === "main") {
+        // Going back to main - show memoji, hide back icon
+        tl.to(
+          fromNav.nav,
+          {
+            rotationX: -90,
+            transformOrigin: "center bottom",
+            duration: 0.25,
+            ease: "power2.inOut",
+          },
+          "-=0.25"
+        )
+          .set(fromNav.nav, { visibility: "hidden" })
+          .to(
+            toNav.nav,
+            {
+              rotationX: 0,
+              transformOrigin: "center top",
+              duration: 0.25,
+              ease: "power2.inOut",
+            },
+            "-=0.15"
+          )
+          // Icon transition back to memoji
+          .to(
+            backIcon,
+            {
+              scale: 0,
+              rotation: 180,
+              duration: 0.2,
+              ease: "power2.inOut",
+            },
+            "-=0.2"
+          )
+          .set(backIcon, { display: "none" })
+          .set(memoji, { display: "block", scale: 0, rotation: -180 })
+          .to(
+            memoji,
+            {
+              scale: 1,
+              rotation: 0,
+              duration: 0.2,
+              ease: "power2.inOut",
+            },
+            "-=0.05"
+          );
+      } else {
+        // Going to sub-nav - show back icon, hide memoji
+        if (fromMode === "main") {
+          // From main to sub-nav
+          tl.to(
+            fromNav.nav,
+            {
+              rotationX: -90,
+              transformOrigin: "center top",
+              duration: 0.25,
+              ease: "power2.inOut",
+            },
+            "-=0.25"
+          )
+            .to(
+              toNav.nav,
+              {
+                rotationX: 0,
+                transformOrigin: "center bottom",
+                visibility: "visible",
+                duration: 0.25,
+                ease: "power2.inOut",
+              },
+              "-=0.15"
+            )
+            // Icon transition to back arrow
+            .to(
+              memoji,
+              {
+                scale: 0,
+                rotation: 180,
+                duration: 0.2,
+                ease: "power2.inOut",
+              },
+              "-=0.2"
+            )
+            .set(memoji, { display: "none" })
+            .set(backIcon, { display: "block", scale: 0, rotation: -180 })
+            .to(
+              backIcon,
+              {
+                scale: 1,
+                rotation: 0,
+                duration: 0.2,
+                ease: "power2.inOut",
+              },
+              "-=0.05"
+            );
+        } else {
+          // From sub-nav to sub-nav (side transition)
+          tl.to(
+            fromNav.nav,
+            {
+              rotationX: -90,
+              transformOrigin: "center bottom",
+              duration: 0.25,
+              ease: "power2.inOut",
+            },
+            "-=0.25"
+          )
+            .set(fromNav.nav, { visibility: "hidden" })
+            .to(
+              toNav.nav,
+              {
+                rotationX: 0,
+                transformOrigin: "center bottom",
+                visibility: "visible",
+                duration: 0.25,
+                ease: "power2.inOut",
+              },
+              "-=0.15"
+            );
+        }
+      }
+    }
+
+    // Dynamic event listeners for parent nav items
+    const parentButtons = document.querySelectorAll('[id$="-btn"]');
+    parentButtons.forEach((button) => {
+      const navId = button.id.replace("-btn", "");
+      button.addEventListener("click", () => navigateTo(navId));
+    });
+
+    // Back button event listener
+    navToggle?.addEventListener("click", () => {
+      if (currentMode !== "main") {
+        navigateTo("main");
+      }
+    });
+  });
+</script>

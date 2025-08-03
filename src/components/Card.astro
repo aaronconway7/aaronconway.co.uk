@@ -34,7 +34,9 @@ import MatchAttax from "../assets/match-attax.webp";
             >
               Career History
             </h2>
-            <table class="font-[JetBrains_Mono_Variable] text-left w-full text-xs text-white mb-4">
+            <table
+              class="font-[JetBrains_Mono_Variable] text-left w-full text-xs text-white mb-4"
+            >
               <tbody>
                 <tr>
                   <td>2017-2017</td>
@@ -93,7 +95,11 @@ import MatchAttax from "../assets/match-attax.webp";
                 </tr>
               </tbody>
             </table>
-            <p class="font-[JetBrains_Mono_Variable] text-center text-[#FFE066]">1/1</p>
+            <p
+              class="font-[JetBrains_Mono_Variable] text-center text-[#FFE066]"
+            >
+              1/1
+            </p>
           </div>
         </div>
         <div class="spotlight"></div>
@@ -289,7 +295,14 @@ import MatchAttax from "../assets/match-attax.webp";
       y: -20,
     });
     gsap.set(
-      [".sticker", ".card h3", ".card__front .--img", ".watermark", ".arrow", ".nav"],
+      [
+        ".sticker",
+        ".card h3",
+        ".card__front .--img",
+        ".watermark",
+        ".arrow",
+        ".nav",
+      ],
       {
         opacity: 0,
       }
@@ -330,7 +343,7 @@ import MatchAttax from "../assets/match-attax.webp";
       gsap.set([CARD], {
         opacity: 1,
       });
-      
+
       // Run the full animation in production
       gsap
         .timeline({
@@ -382,12 +395,16 @@ import MatchAttax from "../assets/match-attax.webp";
         .to(".arrow", {
           opacity: 0.8,
         })
-        .to(".nav", {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          ease: "back.out(1.7)",
-        }, "<");
+        .to(
+          ".nav",
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: "back.out(1.7)",
+          },
+          "<"
+        );
     }
   });
 </script>
