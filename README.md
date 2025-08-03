@@ -1,48 +1,35 @@
-# Astro Starter Kit: Basics
+# My Website 7️⃣
 
-```sh
-bun create astro@latest -- --template basics
-```
+![Portfolio Preview](./public/poster.jpeg)
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/89896d2a-7722-4f10-b85e-eaaa8faec727/deploy-status)](https://app.netlify.com/projects/aaronconway/deploys)
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+🔗 **Live Site**: [aaronconway.co.uk](https://aaronconway.co.uk)
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+## ✨ Features
 
-## 🚀 Project Structure
+- **Interactive 3D Card**: Hover and touch interactions with parallax effects
+- **GSAP Animations**: Smooth entrance animations and SVG path drawing
+- **Holographic Effects**: CSS-based refractions and lighting effects
+- **Responsive Design**: Optimized for desktop and mobile devices  
+- **SEO Optimized**: Meta tags, Open Graph, Twitter Cards, and JSON-LD structured data
+- **Performance Focused**: Astro's zero-JS by default approach
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
 
 ## 🧞 Commands
 
 All commands are run from the root of the project, from a terminal:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
+| Command           | Action                                           |
+| :---------------- | :----------------------------------------------- |
+| `bun install`     | Installs dependencies                            |
+| `bun dev`         | Starts local dev server at `localhost:4321`     |
+| `bun build`       | Build your production site to `./dist/`         |
+| `bun preview`     | Preview your build locally, before deploying    |
 
-## 👀 Want to learn more?
+## 🛠️ Tech Stack
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- **[Astro](https://astro.build)** - Static site generator
+- **[Tailwind CSS](https://tailwindcss.com)** - Utility-first CSS framework
+- **[GSAP](https://greensock.com/gsap/)** - Animation library
+- **[Bun](https://bun.sh)** - JavaScript runtime and package manager
