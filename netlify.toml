@@ -5,3 +5,4 @@
 [build.environment]
     NODE_VERSION = "14"
     PYTHON_VERSION = "2.7"
+    NETLIFY_SKIP_YARN_INSTALL = "true"
