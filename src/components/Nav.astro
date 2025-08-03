@@ -5,11 +5,51 @@ import Memoji from "../assets/memoji.webp";
 // Navigation configuration - easy to maintain and extend
 const navItems = [
   {
-    id: "cv",
-    name: "CV",
-    type: "link", // standalone link
-    url: CV,
-    target: "_blank",
+    id: "projects",
+    name: "Projects",
+    type: "parent", // has children
+    children: [
+      {
+        name: "FootyText",
+        url: "https://footytext.netlify.app/news",
+        emoji: "📺",
+      },
+      {
+        name: "Rona",
+        url: "https://rona.netlify.app/",
+        emoji: "🦠",
+      },
+      {
+        name: "The Third Wheel",
+        url: "https://thethirdwheel.netlify.app",
+        emoji: "🎙️",
+      },
+      {
+        name: "Sweepstake",
+        url: "https://sweepstake.netlify.app/#!/",
+        emoji: "🏆",
+      },
+      {
+        name: "Eden",
+        url: "https://geteden.netlify.app/",
+        emoji: "🌳",
+      },
+      {
+        name: "Lush Heat Treamtment Ltd",
+        url: "https://lush-heat.com/",
+        emoji: "🥵",
+      },
+      {
+        name: "FDIS",
+        url: "https://fdisuk.com/",
+        emoji: "🔥",
+      },
+      {
+        name: "MoneyWiseQuoteMe",
+        url: "https://www.moneywisequoteme.com/",
+        emoji: "💸",
+      },
+    ],
   },
   {
     id: "socials",
@@ -18,73 +58,35 @@ const navItems = [
     children: [
       {
         name: "Twitter",
+        emoji: "🐦",
         url: "https://twitter.com/aaronconway7",
       },
       {
         name: "Instagram",
-        url: "https://instagram.com/aaronconway7",
+        emoji: "📸",
+        url: "https://www.instagram.com/aaronconway7/",
       },
     ],
   },
   {
-    id: "projects",
-    name: "Projects",
-    type: "parent", // has children
-    children: [
-      {
-        name: "TaskFlow",
-        url: "https://github.com/aaronconway7/taskflow",
-      },
-      {
-        name: "WeatherNow",
-        url: "https://github.com/aaronconway7/weathernow",
-      },
-      {
-        name: "ChatBot",
-        url: "https://github.com/aaronconway7/chatbot",
-      },
-      {
-        name: "ECommerce",
-        url: "https://github.com/aaronconway7/ecommerce",
-      },
-      {
-        name: "BlogEngine",
-        url: "https://github.com/aaronconway7/blogengine",
-      },
-      {
-        name: "Gallery",
-        url: "https://github.com/aaronconway7/gallery",
-      },
-      {
-        name: "Dashboard",
-        url: "https://github.com/aaronconway7/dashboard",
-      },
-      {
-        name: "Calculator",
-        url: "https://github.com/aaronconway7/calculator",
-      },
-      {
-        name: "TodoApp",
-        url: "https://github.com/aaronconway7/todoapp",
-      },
-      {
-        name: "MusicPlayer",
-        url: "https://github.com/aaronconway7/musicplayer",
-      },
-    ],
+    id: "cv-btn",
+    name: "CV",
+    type: "button",
+    url: CV,
+    target: "_blank",
   },
 ];
 ---
 
 <nav
-  class="nav bg-[#302e2c99] fixed top-8 right-8 backdrop-blur-lg rounded-3xl py-2 px-6 z-10 flex gap-4 items-center opacity-0 overflow-hidden"
+  class="nav bg-[#302e2c99] fixed top-8 right-8 backdrop-blur-lg rounded-3xl py-3 px-6 z-10 flex gap-6 items-center opacity-0 overflow-hidden"
 >
   <button
     id="nav-toggle"
     class="nav-icon flex items-center justify-center cursor-pointer"
   >
     <img id="memoji" src={Memoji.src} class="h-12" />
-    <svg
+    <!-- <svg
       id="back-icon"
       class="text-[var(--off-white)] hidden h-6"
       fill="none"
@@ -96,18 +98,40 @@ const navItems = [
         stroke-linejoin="round"
         stroke-width="2"
         d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+    </svg> -->
+    <svg
+      id="back-icon"
+      class="text-[var(--off-white)] hidden h-6 opacity-25 hover:opacity-50 link"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M3 9H16.5C18.9853 9 21 11.0147 21 13.5C21 15.9853 18.9853 18 16.5 18H12M3 9L7 5M3 9L7 13"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"></path>
     </svg>
   </button>
 
   <div class="nav-container relative flex-1 flex">
     <!-- Main Navigation -->
-    <ul id="main-nav" class="flex gap-4 items-center whitespace-nowrap">
+    <ul id="main-nav" class="flex gap-6 items-center whitespace-nowrap">
       {
         navItems.map((item) => (
           <li>
             {item.type === "link" ? (
               <a
-                class="link text-[var(--off-white)] uppercase hover:underline hover:text-pink-500 font-[JetBrains_Mono_Variable] tracking-wide leading-[1] underline-offset-4"
+                class="link text-[var(--off-white)] uppercase hover:underline hover:text-[var(--red)] font-[JetBrains_Mono_Variable] tracking-wide leading-[1] underline-offset-4"
+                href={item.url}
+                target={item.target || "_self"}
+              >
+                {item.name}
+              </a>
+            ) : item.type === "button" ? (
+              <a
+                class="link bg-[var(--red)] hover:bg-[var(--off-white)] text-[#181818] rounded-lg px-4 py-2 uppercase font-[JetBrains_Mono_Variable] tracking-wide leading-[1]"
                 href={item.url}
                 target={item.target || "_self"}
               >
@@ -116,7 +140,7 @@ const navItems = [
             ) : (
               <button
                 id={`${item.id}-btn`}
-                class="link text-[var(--off-white)] uppercase hover:underline hover:text-pink-500 font-[JetBrains_Mono_Variable] tracking-wide leading-[1] underline-offset-4 cursor-pointer"
+                class="link text-[var(--off-white)] uppercase hover:underline hover:text-[var(--red)] font-[JetBrains_Mono_Variable] tracking-wide leading-[1] underline-offset-4 cursor-pointer"
               >
                 {item.name}
               </button>
@@ -133,12 +157,13 @@ const navItems = [
         .map((parentItem) => (
           <ul
             id={`${parentItem.id}-nav`}
-            class="flex gap-4 items-center absolute top-0 left-0 whitespace-nowrap h-full"
+            class="flex gap-6 items-center absolute top-0 left-0 whitespace-nowrap h-full"
           >
             {parentItem.children.map((child) => (
-              <li>
+              <li class="flex items-center">
+                <span class="mr-3">{child.emoji}</span>
                 <a
-                  class="link text-[var(--off-white)] uppercase hover:underline hover:text-pink-500 font-[JetBrains_Mono_Variable] tracking-wide leading-[1] underline-offset-4"
+                  class="link text-[var(--off-white)] uppercase hover:underline hover:text-[var(--red)] font-[JetBrains_Mono_Variable] tracking-wide leading-[1] underline-offset-4 inline-block"
                   href={child.url}
                   target="_blank"
                 >
@@ -155,6 +180,7 @@ const navItems = [
 <style>
   :root {
     --off-white: #eeebdd;
+    --red: #fa4b4a;
   }
 
   .link {
@@ -173,6 +199,7 @@ const navItems = [
 
   nav {
     width: max-content;
+    max-width: calc(100vw - var(--spacing) * 8 - var(--spacing) * 8);
   }
 
   .nav-container {
@@ -277,6 +304,7 @@ const navItems = [
               transformOrigin: "center top",
               duration: 0.25,
               ease: "power2.inOut",
+              visibility: "visible",
             },
             "-=0.15"
           )
@@ -317,6 +345,7 @@ const navItems = [
             },
             "-=0.25"
           )
+            .set(fromNav.nav, { visibility: "hidden" })
             .to(
               toNav.nav,
               {
