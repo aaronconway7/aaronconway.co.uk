@@ -285,8 +285,11 @@ import MatchAttax from "../assets/match-attax.webp";
     gsap.set(".glare", {
       xPercent: 100,
     });
+    gsap.set(".nav", {
+      y: -20,
+    });
     gsap.set(
-      [".sticker", ".card h3", ".card__front .--img", ".watermark", ".arrow"],
+      [".sticker", ".card h3", ".card__front .--img", ".watermark", ".arrow", ".nav"],
       {
         opacity: 0,
       }
@@ -308,7 +311,7 @@ import MatchAttax from "../assets/match-attax.webp";
         }
       );
       gsap.set([CARD], {
-        display: "block",
+        opacity: 1,
       });
     };
 
@@ -323,6 +326,11 @@ import MatchAttax from "../assets/match-attax.webp";
         glareElement.remove();
       }
     } else {
+      // Show card immediately, then run animation
+      gsap.set([CARD], {
+        opacity: 1,
+      });
+      
       // Run the full animation in production
       gsap
         .timeline({
@@ -373,7 +381,13 @@ import MatchAttax from "../assets/match-attax.webp";
         })
         .to(".arrow", {
           opacity: 0.8,
-        });
+        })
+        .to(".nav", {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "back.out(1.7)",
+        }, "<");
     }
   });
 </script>
@@ -530,6 +544,7 @@ import MatchAttax from "../assets/match-attax.webp";
       top: 50%;
       left: 50%;
       translate: -50% -50%;
+      opacity: 0;
 
       .--img,
       *::after,
