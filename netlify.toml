@@ -1,4 +1,7 @@
 [build]
     publish = "deploy"
-    command = "echo 'No build needed'"
-    ignore = "exit 0"
+    command = ""
+
+[build.environment]
+    NODE_VERSION = "14"
+    PYTHON_VERSION = "2.7"
