@@ -1,6 +1,8 @@
 ---
 import CV from "../assets/cv-aaron-conway.pdf";
-import Memoji from "../assets/memoji.webp";
+import Memoji1 from "../assets/memoji-1.webp";
+import Memoji2 from "../assets/memoji-2.webp";
+import Memoji3 from "../assets/memoji-3.webp";
 
 // Navigation configuration - easy to maintain and extend
 const navItems = [
@@ -85,20 +87,7 @@ const navItems = [
     id="nav-toggle"
     class="nav-icon flex items-center justify-center cursor-pointer"
   >
-    <img id="memoji" src={Memoji.src} class="h-12" />
-    <!-- <svg
-      id="back-icon"
-      class="text-[var(--off-white)] hidden h-6"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-    </svg> -->
+    <img id="memoji" src={Memoji1.src} class="h-12" />
     <svg
       id="back-icon"
       class="text-[var(--off-white)] hidden h-6 opacity-25 hover:opacity-50 link"
@@ -231,6 +220,14 @@ const navItems = [
     let currentMode = "main";
     let isAnimating = false;
 
+    // Memoji cycling functionality
+    const memojiImages = [
+      memoji.src, // Current image (memoji-1)
+      memoji.src.replace("memoji-1.webp", "memoji-2.webp"),
+      memoji.src.replace("memoji-1.webp", "memoji-3.webp"),
+    ];
+    let currentMemojiIndex = 0;
+
     // Build navigation structure from config
     const navConfig = {
       main: { nav: mainNav, width: 0 },
@@ -259,6 +256,12 @@ const navItems = [
 
     // Set initial container width to main nav width
     gsap.set(navContainer, { width: navConfig.main.width });
+
+    // Function to cycle to next memoji
+    function cycleMemoji() {
+      currentMemojiIndex = (currentMemojiIndex + 1) % memojiImages.length;
+      memoji.src = memojiImages[currentMemojiIndex];
+    }
 
     function navigateTo(targetMode) {
       if (isAnimating || currentMode === targetMode || !navConfig[targetMode])
@@ -415,10 +418,14 @@ const navItems = [
       button.addEventListener("click", () => navigateTo(navId));
     });
 
-    // Back button event listener
+    // Nav toggle event listener - handles both back navigation and memoji cycling
     navToggle?.addEventListener("click", () => {
       if (currentMode !== "main") {
+        // If we're in a sub-nav, go back to main
         navigateTo("main");
+      } else {
+        // If we're in main nav, cycle the memoji
+        cycleMemoji();
       }
     });
   });
