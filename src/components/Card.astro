@@ -1,4 +1,6 @@
 ---
+import "@fontsource/gloria-hallelujah";
+
 import FDLogo from "../assets/fd.webp";
 import Headshot from "../assets/headshot.webp";
 import HeadshotTransparent from "../assets/headshot-transparent.webp";
@@ -49,7 +51,7 @@ import MatchAttax from "../assets/match-attax.webp";
                   <td>2018-2019</td>
                   <td
                     ><a
-                      href="https://finvoice.com"
+                      href="https://finvoice.co"
                       target="_blank"
                       rel="noopener noreferrer"
                       class="company-link">Finvoice 🇺🇸</a
@@ -60,7 +62,7 @@ import MatchAttax from "../assets/match-attax.webp";
                   <td>2020-2021</td>
                   <td
                     ><a
-                      href="https://arcspire.com"
+                      href="https://uk.linkedin.com/company/arcspire"
                       target="_blank"
                       rel="noopener noreferrer"
                       class="company-link">Arcspire</a
@@ -162,11 +164,6 @@ import MatchAttax from "../assets/match-attax.webp";
               alt="Focaldata Logo"
             />
           </div>
-          <!-- <img
-            class="--img"
-            src="https://assets.codepen.io/605876/headshot--square-transparent.png"
-            alt=""
-          /> -->
           <img
             class="--img origin-bottom-right"
             src={HeadshotTransparent.src}
@@ -235,168 +232,154 @@ import MatchAttax from "../assets/match-attax.webp";
   </defs>
 </svg>
 
-<script type="module">
-  import gsap from "https://cdn.skypack.dev/gsap@3.13.0";
-  import { DrawSVGPlugin } from "https://cdn.skypack.dev/gsap@3.13.0/DrawSVGPlugin";
+<script>
+  // Wait for DOM and then dynamically import GSAP
+  document.addEventListener("DOMContentLoaded", async () => {
+    const { default: gsap } = await import("gsap");
+    const { DrawSVGPlugin } = await import("gsap/DrawSVGPlugin");
 
-  gsap.registerPlugin(DrawSVGPlugin);
+    gsap.registerPlugin(DrawSVGPlugin);
 
-  const CARD = document.querySelector(".card");
+    const CARD = document.querySelector(".card");
 
-  const syncLight = ({ x, y }) => {
-    const bounds = CARD.getBoundingClientRect();
-    gsap.set("fePointLight", {
-      attr: {
-        x: Math.floor(x - bounds.x),
-        y: Math.floor(y - bounds.y),
-      },
+    const syncLight = ({ x, y }) => {
+      const bounds = CARD.getBoundingClientRect();
+      gsap.set("fePointLight", {
+        attr: {
+          x: Math.floor(x - bounds.x),
+          y: Math.floor(y - bounds.y),
+        },
+      });
+    };
+
+    const UPDATE = ({ x, y }) => {
+      const BOUNDS = CARD.getBoundingClientRect();
+      // Calculate the range between the center and the pointer position.
+      const posX = x - BOUNDS.x;
+      const posY = y - BOUNDS.y;
+      const ratioX = posX / BOUNDS.width - 0.5;
+      const ratioY = posY / BOUNDS.height - 0.5;
+      const pointerX = gsap.utils.clamp(-1, 1, ratioX * 2).toFixed(2);
+      const pointerY = gsap.utils.clamp(-1, 1, ratioY * 2).toFixed(2);
+      gsap.set(CARD, {
+        "--pointer-x": pointerX,
+        "--pointer-y": pointerY,
+      });
+      syncLight({ x, y });
+    };
+
+    syncLight({ x: window.innerWidth / 2, y: window.innerHeight });
+
+    const flipper = CARD.querySelector("button");
+    flipper.addEventListener("click", () => {
+      if (CARD.dataset.active === "false") return;
+      flipper.ariaPressed = flipper.matches('[aria-pressed="false"]');
     });
-  };
-  const UPDATE = ({ x, y }) => {
-    const BOUNDS = CARD.getBoundingClientRect();
-    // Calculate the range between the center and the pointer position.
-    const posX = x - BOUNDS.x;
-    const posY = y - BOUNDS.y;
-    const ratioX = posX / BOUNDS.width - 0.5;
-    const ratioY = posY / BOUNDS.height - 0.5;
-    const pointerX = gsap.utils.clamp(-1, 1, ratioX * 2).toFixed(2);
-    const pointerY = gsap.utils.clamp(-1, 1, ratioY * 2).toFixed(2);
-    gsap.set(CARD, {
-      "--pointer-x": pointerX,
-      "--pointer-y": pointerY,
+
+    document.body.addEventListener("pointermove", UPDATE);
+
+    // timeline stuff...
+    gsap.set([".sig", ".ear"], {
+      drawSVG: 0,
     });
-    syncLight({ x, y });
-  };
-  syncLight({ x: window.innerWidth / 2, y: window.innerHeight });
-
-  const flipper = CARD.querySelector("button");
-  flipper.addEventListener("click", () => {
-    if (CARD.dataset.active === "false") return;
-    flipper.ariaPressed = flipper.matches('[aria-pressed="false"]');
-  });
-
-  document.body.addEventListener("pointermove", UPDATE);
-
-  // timeline stuff...
-  gsap.set([".sig", ".ear", ".eye", ".nose"], {
-    drawSVG: 0,
-  });
-  gsap.set(".glare", {
-    xPercent: 100,
-  });
-  gsap.set(
-    [".sticker", ".card h3", ".card__front .--img", ".watermark", ".arrow"],
-    {
-      opacity: 0,
-    }
-  );
-
-  const activate = () => {
-    CARD.dataset.active = "true";
+    gsap.set(".glare", {
+      xPercent: 100,
+    });
     gsap.set(
-      [
-        CARD,
-        ".watermark",
-        ".card__front .--img",
-        ".sticker",
-        ".card h3",
-        ".arrow",
-      ],
+      [".sticker", ".card h3", ".card__front .--img", ".watermark", ".arrow"],
       {
-        clearProps: "all",
+        opacity: 0,
       }
     );
-    gsap.set([CARD], {
-      display: "block",
-    });
-  };
 
-  const skipAnimation = false; // Set to true if you want to skip the animation in development
-  // Skip animation in development mode
-  if (skipAnimation) {
-    // Immediately activate the card without animation
-    activate();
-    // Remove the glare element immediately
-    const glareElement = document.querySelector(".glare");
-    if (glareElement) {
-      glareElement.remove();
-    }
-  } else {
-    // Run the full animation in production
-    gsap
-      .timeline({
-        delay: 0.5,
-        onComplete: () => {
-          document.querySelector(".glare").remove();
-          activate();
-        },
-      })
-      .to(".glare", {
-        delay: 0.25,
-        xPercent: -100,
-        duration: 0.65,
-        ease: "power2.inOut",
-      })
-      .to(
-        ".watermark",
+    const activate = () => {
+      CARD.dataset.active = "true";
+      gsap.set(
+        [
+          CARD,
+          ".watermark",
+          ".card__front .--img",
+          ".sticker",
+          ".card h3",
+          ".arrow",
+        ],
         {
-          opacity: 1,
-          duration: 0.5,
-        },
-        "<50%"
-      )
-      .to(
-        ".card__front .--img",
-        {
-          opacity: 1,
-          duration: 0.5,
-        },
-        "<"
-      )
-      .to(".sticker", {
-        opacity: 1,
-        duration: 0.5,
-      })
-      .to(".card h3", {
-        opacity: 1,
-      })
-      .to(".sig", {
-        drawSVG: 1,
-        duration: 0.8,
-        ease: "power2.in",
-      })
-      .to(".ear", {
-        drawSVG: 1,
-        duration: 0.1,
-        ease: "power2.in",
-      })
-      .to(".signature .eye", {
-        drawSVG: 1,
-        duration: 0.1,
-        ease: "power2.in",
-      })
-      .to(".nose", {
-        drawSVG: 1,
-        duration: 0.1,
-        ease: "power2.in",
-      })
-      .to([".signature .eye", ".nose"], {
-        fill: "hsl(45 20% 60%)",
-        duration: 0.2,
-      })
-      .to(".arrow", {
-        opacity: 0.8,
+          clearProps: "all",
+        }
+      );
+      gsap.set([CARD], {
+        display: "block",
       });
-  }
+    };
+
+    const skipAnimation = false; // Set to true if you want to skip the animation in development
+    // Skip animation in development mode
+    if (skipAnimation) {
+      // Immediately activate the card without animation
+      activate();
+      // Remove the glare element immediately
+      const glareElement = document.querySelector(".glare");
+      if (glareElement) {
+        glareElement.remove();
+      }
+    } else {
+      // Run the full animation in production
+      gsap
+        .timeline({
+          delay: 0.5,
+          onComplete: () => {
+            document.querySelector(".glare").remove();
+            activate();
+          },
+        })
+        .to(".glare", {
+          delay: 0.25,
+          xPercent: -100,
+          duration: 0.65,
+          ease: "power2.inOut",
+        })
+        .to(
+          ".watermark",
+          {
+            opacity: 1,
+            duration: 0.5,
+          },
+          "<50%"
+        )
+        .to(
+          ".card__front .--img",
+          {
+            opacity: 1,
+            duration: 0.5,
+          },
+          "<"
+        )
+        .to(".sticker", {
+          opacity: 1,
+          duration: 0.5,
+        })
+        .to(".card h3", {
+          opacity: 1,
+        })
+        .to(".sig", {
+          drawSVG: 1,
+          duration: 0.8,
+          ease: "power2.in",
+        })
+        .to(".ear", {
+          drawSVG: 1,
+          duration: 0.1,
+          ease: "power2.in",
+        })
+        .to(".arrow", {
+          opacity: 0.8,
+        });
+    }
+  });
 </script>
 
 <style>
-  /* @import 'normalize.css' layer(normalize); */
-  /* @import url("https://unpkg.com/normalize.css") layer(normalize); */
-  @import url("https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap");
-  @import url("https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap");
-
-  @layer normalize, base, demo, parallax, explode;
+  @layer base, demo, parallax, explode;
 
   @layer explode {
     *,
@@ -541,7 +524,7 @@ import MatchAttax from "../assets/match-attax.webp";
       touch-action: none;
       background: #0000;
       color: hsl(0 0% 10%);
-      font-family: "Sora", sans-serif;
+      font-family: monospace;
       perspective: 1600px;
       position: fixed;
       top: 50%;
@@ -725,7 +708,7 @@ import MatchAttax from "../assets/match-attax.webp";
         clip-path: inset(0 0 0 0 round var(--border));
 
         &::before {
-          content: "TechTrades © 2025";
+          content: "AC7 © 2025";
           position: absolute;
           bottom: 0;
           left: 50%;
