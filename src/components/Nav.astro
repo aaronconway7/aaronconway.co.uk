@@ -92,77 +92,79 @@ const memojis = [Memoji1, Memoji2, Memoji3].map((memoji) => memoji.src);
 ---
 
 <nav
-  class="nav bg-[#302e2c99] fixed top-8 right-8 backdrop-blur-lg rounded-3xl py-3 px-6 z-10 flex gap-6 items-center overflow-hidden"
+  class="nav bg-[#302e2c99] fixed top-8 right-8 backdrop-blur-lg rounded-3xl py-3 z-10 overflow-hidden"
 >
-  <button
-    id="nav-toggle"
-    class="nav-icon flex items-center justify-center cursor-pointer"
-    aria-label="Change memoji"
-  >
-    <img
-      id="memoji"
-      src={Memoji1.src}
-      width={Memoji1.width}
-      height={Memoji1.height}
-      class="h-12 w-auto"
-      alt=""
-      data-memojis={JSON.stringify(memojis)}
-    />
-    <svg
-      id="back-icon"
-      class="text-[var(--off-white)] hidden h-6 opacity-25 hover:opacity-50 link"
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+  <div class="nav-bar flex gap-6 items-center">
+    <button
+      id="nav-toggle"
+      class="nav-icon flex items-center justify-center cursor-pointer"
+      aria-label="Change memoji"
     >
-      <path
-        d="M3 9H16.5C18.9853 9 21 11.0147 21 13.5C21 15.9853 18.9853 18 16.5 18H12M3 9L7 5M3 9L7 13"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"></path>
-    </svg>
-  </button>
+      <img
+        id="memoji"
+        src={Memoji1.src}
+        width={Memoji1.width}
+        height={Memoji1.height}
+        class="h-12 w-auto"
+        alt=""
+        data-memojis={JSON.stringify(memojis)}
+      />
+      <svg
+        id="back-icon"
+        class="text-[var(--off-white)] hidden h-6 opacity-25 hover:opacity-50 link"
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M3 9H16.5C18.9853 9 21 11.0147 21 13.5C21 15.9853 18.9853 18 16.5 18H12M3 9L7 5M3 9L7 13"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+    </button>
 
-  <ul id="main-nav" class="flex flex-1 gap-6 items-center whitespace-nowrap">
-    {
-      navItems.map((item) => (
-        <li>
-          {item.type === "link" ? (
-            <a
-              class="link text-[var(--off-white)] uppercase hover:underline hover:text-[var(--red)] font-[JetBrains_Mono_Variable] tracking-wide leading-[1] underline-offset-4"
-              href={item.url}
-              target={item.target || "_self"}
-            >
-              {item.name}
-            </a>
-          ) : item.type === "button" ? (
-            <a
-              class="link bg-[var(--red)] hover:bg-[var(--off-white)] text-[#181818] rounded-lg px-4 py-2 uppercase font-[JetBrains_Mono_Variable] tracking-wide leading-[1]"
-              href={item.url}
-              target={item.target || "_self"}
-              rel={item.target === "_blank" ? "noopener" : undefined}
-            >
-              {item.name}
-            </a>
-          ) : (
-            <button
-              id={`${item.id}-btn`}
-              class="link parent-btn text-[var(--off-white)] uppercase hover:underline hover:text-[var(--red)] aria-expanded:underline aria-expanded:text-[var(--red)] font-[JetBrains_Mono_Variable] tracking-wide leading-[1] underline-offset-4 cursor-pointer py-2 -my-2"
-              aria-expanded="false"
-              aria-controls={`${item.id}-panel`}
-            >
-              {item.name}
-            </button>
-          )}
-        </li>
-      ))
-    }
-  </ul>
+    <ul id="main-nav" class="flex flex-1 gap-6 items-center whitespace-nowrap">
+      {
+        navItems.map((item) => (
+          <li>
+            {item.type === "link" ? (
+              <a
+                class="link text-[var(--off-white)] uppercase hover:underline hover:text-[var(--red)] font-[JetBrains_Mono_Variable] tracking-wide leading-[1] underline-offset-4"
+                href={item.url}
+                target={item.target || "_self"}
+              >
+                {item.name}
+              </a>
+            ) : item.type === "button" ? (
+              <a
+                class="link bg-[var(--red)] hover:bg-[var(--off-white)] text-[#181818] rounded-lg px-4 py-2 uppercase font-[JetBrains_Mono_Variable] tracking-wide leading-[1]"
+                href={item.url}
+                target={item.target || "_self"}
+                rel={item.target === "_blank" ? "noopener" : undefined}
+              >
+                {item.name}
+              </a>
+            ) : (
+              <button
+                id={`${item.id}-btn`}
+                class="link parent-btn text-[var(--off-white)] uppercase hover:underline hover:text-[var(--red)] aria-expanded:underline aria-expanded:text-[var(--red)] font-[JetBrains_Mono_Variable] tracking-wide leading-[1] underline-offset-4 cursor-pointer py-2 -my-2"
+                aria-expanded="false"
+                aria-controls={`${item.id}-panel`}
+              >
+                {item.name}
+              </button>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
 
   <!-- Dropdown panel for Projects / Socials -->
-  <div id="nav-panel" class="nav-panel basis-full overflow-hidden" hidden>
+  <div id="nav-panel" class="nav-panel overflow-hidden" hidden>
     <div class="overflow-y-auto max-h-[60dvh] pt-3 border-t border-white/10">
       {
         parentItems.map((parentItem) => (
@@ -207,10 +209,10 @@ const memojis = [Memoji1, Memoji2, Memoji3].map((memoji) => memoji.src);
   }
 
   nav {
+    --nav-pad-x: calc(var(--spacing) * 6);
+    padding-inline: var(--nav-pad-x);
     width: max-content;
     max-width: calc(100vw - var(--spacing) * 8 - var(--spacing) * 8);
-    flex-wrap: wrap;
-    row-gap: 0;
     transition: background-color 0.3s;
   }
 
@@ -223,16 +225,16 @@ const memojis = [Memoji1, Memoji2, Memoji3].map((memoji) => memoji.src);
     min-height: 48px;
   }
 
-  /* Panel matches the bar's width instead of stretching the pill */
+  /* Matches the bar's width instead of stretching the pill, and bleeds to
+     the pill's edges so row hovers span the full width */
   .nav-panel {
     contain: inline-size;
+    margin-inline: calc(var(--nav-pad-x) * -1);
+    margin-bottom: calc(var(--spacing) * -3);
   }
 
   .nav-panel > div {
     margin-top: calc(var(--spacing) * 3);
-    margin-bottom: calc(var(--spacing) * -1);
-    margin-inline: calc(var(--spacing) * -3);
-    padding-inline: calc(var(--spacing) * 1);
   }
 
   /* Landscape phones: give the card more room */
@@ -249,8 +251,11 @@ const memojis = [Memoji1, Memoji2, Memoji3].map((memoji) => memoji.src);
       right: calc(var(--spacing) * 4);
       width: auto;
       max-width: none;
-      padding-inline: calc(var(--spacing) * 4);
-      column-gap: calc(var(--spacing) * 4);
+      --nav-pad-x: calc(var(--spacing) * 4);
+    }
+
+    .nav-bar {
+      gap: calc(var(--spacing) * 4);
     }
 
     #main-nav {

@@ -8,12 +8,12 @@ const { items } = Astro.props;
 const hostname = (url: string) => new URL(url).hostname.replace(/^www\./, "");
 ---
 
-<ul class="flex flex-col gap-1">
+<ul class="flex flex-col">
   {
     items.map((item) => (
       <li>
         <a
-          class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-[var(--off-white)] transition-colors hover:bg-white/5 focus-visible:bg-white/5 focus-visible:outline-2 focus-visible:outline-[var(--red)]"
+          class="group flex items-center gap-3 px-[var(--nav-pad-x)] py-3 text-[var(--off-white)] transition-colors hover:bg-white/5 focus-visible:bg-white/5 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[var(--red)]"
           href={item.url}
           target="_blank"
           rel="noopener noreferrer"
