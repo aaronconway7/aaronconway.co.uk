@@ -92,7 +92,7 @@ const memojis = [Memoji1, Memoji2, Memoji3].map((memoji) => memoji.src);
 ---
 
 <nav
-  class="nav bg-[#302e2c99] fixed top-8 right-8 backdrop-blur-lg rounded-3xl py-3 px-6 z-10 flex gap-6 items-center opacity-0 overflow-hidden"
+  class="nav bg-[#302e2c99] fixed top-8 right-8 backdrop-blur-lg rounded-3xl py-3 px-6 z-10 flex gap-6 items-center overflow-hidden"
 >
   <button
     id="nav-toggle"
@@ -272,6 +272,11 @@ const memojis = [Memoji1, Memoji2, Memoji3].map((memoji) => memoji.src);
 
   .nav-icon:hover {
     transform: scale(1.05);
+  }
+
+  /* Hidden until the intro reveals it, but only when JS can do the revealing */
+  :global(.js) nav {
+    opacity: 0;
   }
 
   nav {
