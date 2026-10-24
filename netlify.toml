@@ -1,3 +1,9 @@
 [build]
   command = "bun run build"
   publish = "dist"
+
+# Astro fingerprints everything in /_astro, so it can be cached forever
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
