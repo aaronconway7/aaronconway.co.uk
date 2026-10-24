@@ -125,72 +125,43 @@ const memojis = [Memoji1, Memoji2, Memoji3].map((memoji) => memoji.src);
     </svg>
   </button>
 
-  <div class="nav-container relative flex-1 flex">
-    <!-- Main Navigation -->
-    <ul id="main-nav" class="flex gap-6 items-center whitespace-nowrap">
-      {
-        navItems.map((item) => (
-          <li>
-            {item.type === "link" ? (
-              <a
-                class="link text-[var(--off-white)] uppercase hover:underline hover:text-[var(--red)] font-[JetBrains_Mono_Variable] tracking-wide leading-[1] underline-offset-4"
-                href={item.url}
-                target={item.target || "_self"}
-              >
-                {item.name}
-              </a>
-            ) : item.type === "button" ? (
-              <a
-                class="link bg-[var(--red)] hover:bg-[var(--off-white)] text-[#181818] rounded-lg px-4 py-2 uppercase font-[JetBrains_Mono_Variable] tracking-wide leading-[1]"
-                href={item.url}
-                target={item.target || "_self"}
-                rel={item.target === "_blank" ? "noopener" : undefined}
-              >
-                {item.name}
-              </a>
-            ) : (
-              <button
-                id={`${item.id}-btn`}
-                class="link parent-btn text-[var(--off-white)] uppercase hover:underline hover:text-[var(--red)] aria-expanded:underline aria-expanded:text-[var(--red)] font-[JetBrains_Mono_Variable] tracking-wide leading-[1] underline-offset-4 cursor-pointer py-2 -my-2"
-                aria-expanded="false"
-                aria-controls={`${item.id}-panel`}
-              >
-                {item.name}
-              </button>
-            )}
-          </li>
-        ))
-      }
-    </ul>
-
-    <!-- Child Navigations -->
+  <ul id="main-nav" class="flex flex-1 gap-6 items-center whitespace-nowrap">
     {
-      navItems
-        .filter((item) => item.type === "parent")
-        .map((parentItem) => (
-          <ul
-            id={`${parentItem.id}-nav`}
-            class="flip-nav flex gap-6 items-center absolute top-0 left-0 whitespace-nowrap h-full"
-          >
-            {parentItem.children.map((child) => (
-              <li class="flex items-center">
-                <span class="mr-3">{child.emoji}</span>
-                <a
-                  class="link text-[var(--off-white)] uppercase hover:underline hover:text-[var(--red)] font-[JetBrains_Mono_Variable] tracking-wide leading-[1] underline-offset-4 inline-block"
-                  href={child.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {child.name}
-                </a>
-              </li>
-            ))}
-          </ul>
-        ))
+      navItems.map((item) => (
+        <li>
+          {item.type === "link" ? (
+            <a
+              class="link text-[var(--off-white)] uppercase hover:underline hover:text-[var(--red)] font-[JetBrains_Mono_Variable] tracking-wide leading-[1] underline-offset-4"
+              href={item.url}
+              target={item.target || "_self"}
+            >
+              {item.name}
+            </a>
+          ) : item.type === "button" ? (
+            <a
+              class="link bg-[var(--red)] hover:bg-[var(--off-white)] text-[#181818] rounded-lg px-4 py-2 uppercase font-[JetBrains_Mono_Variable] tracking-wide leading-[1]"
+              href={item.url}
+              target={item.target || "_self"}
+              rel={item.target === "_blank" ? "noopener" : undefined}
+            >
+              {item.name}
+            </a>
+          ) : (
+            <button
+              id={`${item.id}-btn`}
+              class="link parent-btn text-[var(--off-white)] uppercase hover:underline hover:text-[var(--red)] aria-expanded:underline aria-expanded:text-[var(--red)] font-[JetBrains_Mono_Variable] tracking-wide leading-[1] underline-offset-4 cursor-pointer py-2 -my-2"
+              aria-expanded="false"
+              aria-controls={`${item.id}-panel`}
+            >
+              {item.name}
+            </button>
+          )}
+        </li>
+      ))
     }
-  </div>
+  </ul>
 
-  <!-- Dropdown panel (?menu=dropdown / dropdown-sheet) -->
+  <!-- Dropdown panel for Projects / Socials -->
   <div id="nav-panel" class="nav-panel basis-full overflow-hidden" hidden>
     <div class="overflow-y-auto max-h-[60dvh] pt-3 border-t border-white/10">
       {
@@ -209,50 +180,6 @@ const memojis = [Memoji1, Memoji2, Memoji3].map((memoji) => memoji.src);
     </div>
   </div>
 </nav>
-
-<!-- Bottom sheet for small screens (?menu=dropdown-sheet). Lives outside the
-     nav because the nav's backdrop-filter would trap position: fixed. -->
-<div id="menu-scrim" class="menu-sheet-part fixed inset-0 z-40 bg-black/60" hidden>
-</div>
-<div
-  id="menu-sheet"
-  class="menu-sheet-part fixed inset-x-0 bottom-0 z-50 rounded-t-3xl bg-[#302e2c] px-4 pt-3 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-2xl shadow-black"
-  role="dialog"
-  aria-modal="true"
-  aria-labelledby="menu-sheet-title"
-  hidden
->
-  <div class="mx-auto mb-3 h-1 w-10 rounded-full bg-white/20"></div>
-  <div class="mb-2 flex items-center justify-between px-3">
-    <h2
-      id="menu-sheet-title"
-      class="uppercase font-[JetBrains_Mono_Variable] tracking-wide text-[var(--red)]"
-    >
-    </h2>
-    <button
-      id="menu-sheet-close"
-      class="text-[var(--off-white)] opacity-50 hover:opacity-100 cursor-pointer p-2 -m-2"
-      aria-label="Close menu"
-    >
-      <svg class="h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path
-          d="M6 6L18 18M18 6L6 18"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"></path>
-      </svg>
-    </button>
-  </div>
-  <div class="max-h-[70dvh] overflow-y-auto">
-    {
-      parentItems.map((parentItem) => (
-        <div class="sheet-list" data-parent={parentItem.id} data-title={parentItem.name} hidden>
-          <NavLinkList items={parentItem.children} />
-        </div>
-      ))
-    }
-  </div>
-</div>
 
 <style>
   :root {
@@ -282,73 +209,53 @@ const memojis = [Memoji1, Memoji2, Memoji3].map((memoji) => memoji.src);
   nav {
     width: max-content;
     max-width: calc(100vw - var(--spacing) * 8 - var(--spacing) * 8);
+    flex-wrap: wrap;
+    row-gap: 0;
+    transition: background-color 0.3s;
   }
 
-  .nav-container {
-    perspective: 1000px;
-    transform-style: preserve-3d;
-    overflow-x: auto;
+  /* More opaque while open so the list reads over the card */
+  nav:has(.nav-panel:not([hidden])) {
+    background-color: #302e2ce6;
+  }
+
+  #main-nav {
     min-height: 48px;
-    width: max-content;
   }
 
-  #main-nav,
-  [id$="-nav"] {
-    transform-style: preserve-3d;
-    transform-origin: center center;
-    width: max-content;
+  /* Panel matches the bar's width instead of stretching the pill */
+  .nav-panel {
+    contain: inline-size;
   }
 
-  /* TEMP (design comparison): ?menu=dropdown / dropdown-sheet */
-  :root[data-menu^="dropdown"] {
-    .flip-nav {
-      display: none;
-    }
+  .nav-panel > div {
+    margin-top: calc(var(--spacing) * 3);
+    margin-bottom: calc(var(--spacing) * -1);
+    margin-inline: calc(var(--spacing) * -3);
+    padding-inline: calc(var(--spacing) * 1);
+  }
 
+  /* Landscape phones: give the card more room */
+  @media (max-height: 500px) {
     nav {
-      flex-wrap: wrap;
-      row-gap: 0;
-      transition: background-color 0.3s;
+      top: calc(var(--spacing) * 4);
+    }
+  }
+
+  @media (max-width: 639px) {
+    nav {
+      top: calc(var(--spacing) * 4);
+      left: calc(var(--spacing) * 4);
+      right: calc(var(--spacing) * 4);
+      width: auto;
+      max-width: none;
+      padding-inline: calc(var(--spacing) * 4);
+      column-gap: calc(var(--spacing) * 4);
     }
 
-    /* More opaque while open so the list reads over the card */
-    nav:has(.nav-panel:not([hidden])) {
-      background-color: #302e2ce6;
-    }
-
-    /* Panel matches the bar's width instead of stretching the pill */
-    .nav-panel {
-      contain: inline-size;
-    }
-
-    .nav-panel > div {
-      margin-top: calc(var(--spacing) * 3);
-      margin-bottom: calc(var(--spacing) * -1);
-      margin-inline: calc(var(--spacing) * -3);
-      padding-inline: calc(var(--spacing) * 1);
-    }
-
-    @media (max-width: 639px) {
-      nav {
-        top: calc(var(--spacing) * 4);
-        left: calc(var(--spacing) * 4);
-        right: calc(var(--spacing) * 4);
-        width: auto;
-        max-width: none;
-        padding-inline: calc(var(--spacing) * 4);
-        column-gap: calc(var(--spacing) * 4);
-      }
-
-      .nav-container {
-        width: auto;
-        overflow: visible;
-      }
-
-      #main-nav {
-        width: 100%;
-        justify-content: flex-end;
-        gap: calc(var(--spacing) * 5);
-      }
+    #main-nav {
+      justify-content: flex-end;
+      gap: calc(var(--spacing) * 5);
     }
   }
 </style>
@@ -356,248 +263,24 @@ const memojis = [Memoji1, Memoji2, Memoji3].map((memoji) => memoji.src);
 <script>
   import { gsap } from "gsap";
 
-  document.addEventListener("DOMContentLoaded", async function () {
-    // Measure widths with the real font, not the fallback
-    await document.fonts.ready;
-
+  document.addEventListener("DOMContentLoaded", function () {
+    const nav = document.querySelector(".nav");
     const navToggle = document.getElementById("nav-toggle");
-    const mainNav = document.getElementById("main-nav");
     const memoji = document.getElementById("memoji");
     const backIcon = document.getElementById("back-icon");
-    const navContainer = document.querySelector(".nav-container");
+    const panel = document.getElementById("nav-panel");
+    const parentButtons = [...document.querySelectorAll(".parent-btn")];
 
-    let currentMode = "main";
-    let isAnimating = false;
-
-    // Memoji cycling functionality
     const memojiImages = JSON.parse(memoji.dataset.memojis);
     let currentMemojiIndex = 0;
+    let openId = null;
 
-    // TEMP (design comparison): dropdown variants replace the flip menu
-    if (document.documentElement.dataset.menu?.startsWith("dropdown")) {
-      setupDropdownMenu({ navToggle, memoji, backIcon, cycleMemoji });
-      return;
-    }
-
-    // Build navigation structure from config
-    const navConfig = {
-      main: { nav: mainNav, width: 0 },
-    };
-
-    // Find all child nav elements (they have IDs ending with "-nav" but not "main-nav")
-    const childNavs = document.querySelectorAll('[id$="-nav"]:not(#main-nav)');
-
-    childNavs.forEach((navElement) => {
-      const navId = navElement.id.replace("-nav", "");
-
-      // Initial setup - position sub navs below main nav
-      gsap.set(navElement, { rotationX: 90, transformOrigin: "center bottom" });
-
-      // Temporarily make visible to measure width
-      gsap.set(navElement, { visibility: "visible", position: "static" });
-      const width = navElement.offsetWidth;
-      gsap.set(navElement, { visibility: "hidden", position: "absolute" });
-
-      // Add to nav config
-      navConfig[navId] = { nav: navElement, width: width };
-    });
-
-    // Measure main nav width last (after all measurements)
-    navConfig.main.width = mainNav.offsetWidth;
-
-    // Set initial container width to main nav width
-    gsap.set(navContainer, { width: navConfig.main.width });
-
-    // Function to cycle to next memoji
     function cycleMemoji() {
       currentMemojiIndex = (currentMemojiIndex + 1) % memojiImages.length;
       memoji.src = memojiImages[currentMemojiIndex];
     }
 
-    function navigateTo(targetMode) {
-      if (isAnimating || currentMode === targetMode || !navConfig[targetMode])
-        return;
-
-      isAnimating = true;
-      const fromMode = currentMode;
-      currentMode = targetMode;
-
-      const tl = gsap.timeline({
-        onComplete: () => {
-          isAnimating = false;
-        },
-      });
-
-      const fromNav = navConfig[fromMode];
-      const toNav = navConfig[targetMode];
-
-      // Animate container width
-      tl.to(navContainer, {
-        width: toNav.width,
-        duration: 0.25,
-        ease: "power2.inOut",
-      });
-
-      if (targetMode === "main") {
-        // Going back to main - show memoji, hide back icon
-        tl.to(
-          fromNav.nav,
-          {
-            rotationX: -90,
-            transformOrigin: "center bottom",
-            duration: 0.25,
-            ease: "power2.inOut",
-          },
-          "-=0.25"
-        )
-          .set(fromNav.nav, { visibility: "hidden" })
-          .to(
-            toNav.nav,
-            {
-              rotationX: 0,
-              transformOrigin: "center top",
-              duration: 0.25,
-              ease: "power2.inOut",
-              visibility: "visible",
-            },
-            "-=0.15"
-          )
-          // Icon transition back to memoji
-          .to(
-            backIcon,
-            {
-              scale: 0,
-              rotation: 180,
-              duration: 0.2,
-              ease: "power2.inOut",
-            },
-            "-=0.2"
-          )
-          .set(backIcon, { display: "none" })
-          .set(memoji, { display: "block", scale: 0, rotation: -180 })
-          .to(
-            memoji,
-            {
-              scale: 1,
-              rotation: 0,
-              duration: 0.2,
-              ease: "power2.inOut",
-            },
-            "-=0.05"
-          );
-      } else {
-        // Going to sub-nav - show back icon, hide memoji
-        if (fromMode === "main") {
-          // From main to sub-nav
-          tl.to(
-            fromNav.nav,
-            {
-              rotationX: -90,
-              transformOrigin: "center top",
-              duration: 0.25,
-              ease: "power2.inOut",
-            },
-            "-=0.25"
-          )
-            .set(fromNav.nav, { visibility: "hidden" })
-            .to(
-              toNav.nav,
-              {
-                rotationX: 0,
-                transformOrigin: "center bottom",
-                visibility: "visible",
-                duration: 0.25,
-                ease: "power2.inOut",
-              },
-              "-=0.15"
-            )
-            // Icon transition to back arrow
-            .to(
-              memoji,
-              {
-                scale: 0,
-                rotation: 180,
-                duration: 0.2,
-                ease: "power2.inOut",
-              },
-              "-=0.2"
-            )
-            .set(memoji, { display: "none" })
-            .set(backIcon, { display: "block", scale: 0, rotation: -180 })
-            .to(
-              backIcon,
-              {
-                scale: 1,
-                rotation: 0,
-                duration: 0.2,
-                ease: "power2.inOut",
-              },
-              "-=0.05"
-            );
-        } else {
-          // From sub-nav to sub-nav (side transition)
-          tl.to(
-            fromNav.nav,
-            {
-              rotationX: -90,
-              transformOrigin: "center bottom",
-              duration: 0.25,
-              ease: "power2.inOut",
-            },
-            "-=0.25"
-          )
-            .set(fromNav.nav, { visibility: "hidden" })
-            .to(
-              toNav.nav,
-              {
-                rotationX: 0,
-                transformOrigin: "center bottom",
-                visibility: "visible",
-                duration: 0.25,
-                ease: "power2.inOut",
-              },
-              "-=0.15"
-            );
-        }
-      }
-    }
-
-    // Dynamic event listeners for parent nav items
-    const parentButtons = document.querySelectorAll(".parent-btn");
-    parentButtons.forEach((button) => {
-      const navId = button.id.replace("-btn", "");
-      button.addEventListener("click", () => navigateTo(navId));
-    });
-
-    // Nav toggle event listener - handles both back navigation and memoji cycling
-    navToggle?.addEventListener("click", () => {
-      if (currentMode !== "main") {
-        // If we're in a sub-nav, go back to main
-        navigateTo("main");
-      } else {
-        // If we're in main nav, cycle the memoji
-        cycleMemoji();
-      }
-    });
-  });
-  function setupDropdownMenu({ navToggle, memoji, backIcon, cycleMemoji }) {
-    const nav = document.querySelector(".nav");
-    const panel = document.getElementById("nav-panel");
-    const sheet = document.getElementById("menu-sheet");
-    const scrim = document.getElementById("menu-scrim");
-    const sheetTitle = document.getElementById("menu-sheet-title");
-    const parentButtons = [...document.querySelectorAll(".parent-btn")];
-    const useSheet = () =>
-      document.documentElement.dataset.menu === "dropdown-sheet" &&
-      matchMedia("(max-width: 639px)").matches;
-
-    let openId = null;
-    let openIn = null; // "panel" | "sheet"
-
-    const button = (id) => document.getElementById(`${id}-btn`);
-    const panelList = (id) => document.getElementById(`${id}-panel`);
-    const sheetList = (id) => sheet.querySelector(`[data-parent="${id}"]`);
-
+    // Memoji <-> back arrow
     function swapIcon(showBack) {
       const [from, to] = showBack ? [memoji, backIcon] : [backIcon, memoji];
       navToggle.setAttribute("aria-label", showBack ? "Close menu" : "Change memoji");
@@ -609,91 +292,57 @@ const memojis = [Memoji1, Memoji2, Memoji3].map((memoji) => memoji.src);
         .to(to, { scale: 1, rotation: 0, duration: 0.2, ease: "power2.inOut" }, "-=0.05");
     }
 
-    function staggerIn(list) {
+    function showList(id) {
+      parentButtons.forEach((btn) =>
+        btn.setAttribute("aria-expanded", String(btn.id === `${id}-btn`))
+      );
+      document.querySelectorAll(".panel-list").forEach((list) => {
+        list.hidden = list.id !== `${id}-panel`;
+      });
+      const list = document.getElementById(`${id}-panel`);
       gsap.fromTo(
         list.querySelectorAll("li"),
         { y: -6, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.25, stagger: 0.03, ease: "power2.out" }
       );
-    }
-
-    function showList(id) {
-      parentButtons.forEach((btn) =>
-        btn.setAttribute("aria-expanded", String(btn.id === `${id}-btn`))
-      );
-      document.querySelectorAll(".panel-list, .sheet-list").forEach((list) => {
-        list.hidden = true;
-      });
-      const list = openIn === "sheet" ? sheetList(id) : panelList(id);
-      list.hidden = false;
-      if (openIn === "sheet") sheetTitle.textContent = list.dataset.title;
-      staggerIn(list);
       list.querySelector("a")?.focus({ preventScroll: true });
     }
 
     function open(id) {
       if (openId === id) return close();
-      const wasOpen = openId !== null;
-      openId = id;
 
-      if (wasOpen) {
-        // Switching Projects <-> Socials: keep the container, swap the list
+      if (openId) {
+        // Switching Projects <-> Socials: keep the panel, swap the list
         const startHeight = panel.offsetHeight;
+        openId = id;
         showList(id);
-        if (openIn === "panel") {
-          gsap.fromTo(panel, { height: startHeight }, { height: "auto", duration: 0.25, ease: "power2.inOut" });
-        }
+        gsap.fromTo(panel, { height: startHeight }, { height: "auto", duration: 0.25, ease: "power2.inOut" });
         return;
       }
 
-      openIn = useSheet() ? "sheet" : "panel";
+      openId = id;
       swapIcon(true);
-
-      if (openIn === "sheet") {
-        scrim.hidden = false;
-        sheet.hidden = false;
-        showList(id);
-        gsap.fromTo(scrim, { opacity: 0 }, { opacity: 1, duration: 0.2 });
-        gsap.fromTo(sheet, { yPercent: 100 }, { yPercent: 0, duration: 0.35, ease: "power3.out" });
-      } else {
-        panel.hidden = false;
-        showList(id);
-        gsap.fromTo(panel, { height: 0, opacity: 0 }, { height: "auto", opacity: 1, duration: 0.3, ease: "power2.out" });
-      }
+      panel.hidden = false;
+      showList(id);
+      gsap.fromTo(panel, { height: 0, opacity: 0 }, { height: "auto", opacity: 1, duration: 0.3, ease: "power2.out" });
     }
 
     function close() {
       if (openId === null) return;
-      const returnFocusTo = button(openId);
-      const closingIn = openIn;
+      const returnFocusTo = document.getElementById(`${openId}-btn`);
       openId = null;
-      openIn = null;
       parentButtons.forEach((btn) => btn.setAttribute("aria-expanded", "false"));
       swapIcon(false);
-
-      if (closingIn === "sheet") {
-        gsap.to(scrim, { opacity: 0, duration: 0.2 });
-        gsap.to(sheet, {
-          yPercent: 100,
-          duration: 0.25,
-          ease: "power2.in",
-          onComplete: () => {
-            sheet.hidden = true;
-            scrim.hidden = true;
-          },
-        });
-      } else {
-        gsap.to(panel, {
-          height: 0,
-          opacity: 0,
-          duration: 0.2,
-          ease: "power2.in",
-          onComplete: () => {
-            panel.hidden = true;
-          },
-        });
-      }
-      if (nav.contains(document.activeElement) || sheet.contains(document.activeElement)) {
+      gsap.to(panel, {
+        height: 0,
+        opacity: 0,
+        duration: 0.2,
+        ease: "power2.in",
+        onComplete: () => {
+          panel.hidden = true;
+        },
+      });
+      if (nav.contains(document.activeElement)) {
         returnFocusTo.focus({ preventScroll: true });
       }
     }
@@ -702,20 +351,18 @@ const memojis = [Memoji1, Memoji2, Memoji3].map((memoji) => memoji.src);
       btn.addEventListener("click", () => open(btn.id.replace("-btn", "")));
     });
 
+    // Memoji cycles when closed, acts as a back button when open
     navToggle.addEventListener("click", () => {
       if (openId) close();
       else cycleMemoji();
     });
-
-    document.getElementById("menu-sheet-close").addEventListener("click", close);
-    scrim.addEventListener("click", close);
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") close();
     });
 
     document.addEventListener("pointerdown", (event) => {
-      if (openIn === "panel" && !nav.contains(event.target)) close();
+      if (openId && !nav.contains(event.target)) close();
     });
-  }
+  });
 </script>

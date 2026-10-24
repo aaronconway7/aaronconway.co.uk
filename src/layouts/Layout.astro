@@ -34,16 +34,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       document.documentElement.classList.add("js");
     </script>
 
-    <!-- TEMP (design comparison): ?menu= ?intro= ?noise= ?card= pick a variant, ?compare shows a switcher. Remove once options are chosen. -->
-    <script is:inline>
-      (() => {
-        const params = new URLSearchParams(location.search);
-        const defaults = { menu: "current", intro: "current", noise: "gif", card: "fixed" };
-        for (const [key, fallback] of Object.entries(defaults)) {
-          document.documentElement.dataset[key] = params.get(key) || fallback;
-        }
-      })();
-    </script>
     <link
       rel="preload"
       href={jetbrainsMonoLatin}
@@ -98,36 +88,5 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body class="bg-[#181818]">
     <slot />
-    <!-- TEMP (design comparison) -->
-    <script is:inline>
-      (() => {
-        const params = new URLSearchParams(location.search);
-        if (!params.has("compare")) return;
-        const options = {
-          menu: ["current", "dropdown", "dropdown-sheet"],
-          intro: ["current", "fast"],
-          noise: ["gif", "svg", "none"],
-          card: ["fixed", "responsive"],
-        };
-        const panel = document.createElement("form");
-        panel.style.cssText =
-          "position:fixed;left:8px;bottom:8px;z-index:2147483647;display:grid;gap:4px;padding:8px;border-radius:8px;background:#000c;color:#eee;font:11px ui-monospace,monospace";
-        for (const [key, values] of Object.entries(options)) {
-          const select = document.createElement("select");
-          select.name = key;
-          select.innerHTML = values
-            .map((v) => `<option ${document.documentElement.dataset[key] === v ? "selected" : ""}>${v}</option>`)
-            .join("");
-          select.onchange = () => {
-            params.set(key, select.value);
-            location.search = params.toString();
-          };
-          const label = document.createElement("label");
-          label.append(`${key} `, select);
-          panel.append(label);
-        }
-        document.body.append(panel);
-      })();
-    </script>
   </body>
 </html>

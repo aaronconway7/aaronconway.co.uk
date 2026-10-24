@@ -364,8 +364,6 @@ const cardSizes = "260px";
     const prefersReducedMotion = matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
-    // TEMP (design comparison): ?intro=fast reveals the nav alongside the glare
-    const revealNavEarly = document.documentElement.dataset.intro === "fast";
 
     if (skipAnimation || prefersReducedMotion) {
       // Immediately activate the card without animation
@@ -442,7 +440,7 @@ const cardSizes = "260px";
             duration: 0.6,
             ease: "back.out(1.7)",
           },
-          revealNavEarly ? 0.25 : "<"
+          0.25 // alongside the glare, rather than after the whole intro
         );
     }
   });
@@ -474,7 +472,11 @@ const cardSizes = "260px";
       top: 50%;
       left: 50%;
       rotate: 10deg;
-      translate: calc(-40% + var(--card-width) * -1) 0;
+      /* Extra nudge left as the card shrinks so the arrow doesn't overlap it */
+      translate: calc(
+          -40% + var(--card-width) * -1 - (260px - var(--card-width)) * 0.5
+        )
+        0;
       width: 80px;
       z-index: 99999;
 
@@ -574,12 +576,8 @@ const cardSizes = "260px";
   @layer demo {
     :root {
       --border-color: hsl(0 0% 25%);
-      --card-width: 260px;
-    }
-    /* TEMP (design comparison): ?card=responsive shrinks the card to fit
-       between the nav and the bottom edge on short screens */
-    :root[data-card="responsive"] {
-      --card-width: clamp(160px, (100dvh - 14rem) * 5 / 7, min(260px, 75vw));
+      /* Shrinks on short screens so the card clears the nav */
+      --card-width: clamp(140px, (100dvh - 14rem) * 5 / 7, min(260px, 75vw));
     }
     .scene {
       perspective: 1000px;
