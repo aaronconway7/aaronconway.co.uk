@@ -1,11 +1,16 @@
 ---
-import "@fontsource/gloria-hallelujah";
+import "@fontsource/gloria-hallelujah/latin-400.css";
 
 import FDLogo from "../assets/fd.webp";
 import Headshot from "../assets/headshot.webp";
 import HeadshotTransparent from "../assets/headshot-transparent.webp";
 import PLBackdrop1 from "../assets/pl-backdrop-1.webp";
 import MatchAttax from "../assets/match-attax.webp";
+import { Image } from "astro:assets";
+
+// The card is 260px wide, so serve up to ~3x DPR instead of the 3024px originals
+const cardWidths = [400, 600, 800];
+const cardSizes = "260px";
 ---
 
 <div class="scene">
@@ -23,9 +28,25 @@ import MatchAttax from "../assets/match-attax.webp";
     <button aria-label="Flip card" aria-pressed="false"></button>
     <div class="card__content shadow-2xl shadow-black">
       <div class="card__rear card__face">
-        <img class="backdrop --img" src={PLBackdrop1.src} alt="" />
+        <Image
+          class="backdrop --img"
+          src={PLBackdrop1}
+          width={671}
+          widths={[400, 671]}
+          sizes={cardSizes}
+          alt=""
+          loading="lazy"
+        />
         <div class="card__emboss">
-          <img class="gemstone --img" src={MatchAttax.src} alt="" />
+          <Image
+            class="gemstone --img"
+            src={MatchAttax}
+            width={500}
+            widths={[200, 400, 500]}
+            sizes="160px"
+            alt=""
+            loading="lazy"
+          />
           <div
             class="absolute bottom-[calc(var(--border))] left-[var(--border)] right-[var(--border)]"
           >
@@ -106,10 +127,15 @@ import MatchAttax from "../assets/match-attax.webp";
       </div>
       <div class="card__front">
         <div class="img">
-          <img
+          <Image
             class="--img origin-bottom-right brightness-50"
-            src={Headshot.src}
+            src={Headshot}
+            width={800}
+            widths={cardWidths}
+            sizes={cardSizes}
             alt=""
+            loading="eager"
+            fetchpriority="high"
           />
         </div>
         <!-- when you're working with these layers, you need to think differently -->
@@ -164,16 +190,22 @@ import MatchAttax from "../assets/match-attax.webp";
           </svg>
 
           <div class="sticker">
-            <img
-              src={FDLogo.src}
+            <Image
+              src={FDLogo}
+              width={120}
               class="border-4 ml-1 mb-1 border-white rounded-lg"
               alt="Focaldata Logo"
             />
           </div>
-          <img
+          <Image
             class="--img origin-bottom-right"
-            src={HeadshotTransparent.src}
-            alt=""
+            src={HeadshotTransparent}
+            width={800}
+            widths={cardWidths}
+            sizes={cardSizes}
+            alt="Aaron Conway"
+            loading="eager"
+            fetchpriority="high"
           />
         </div>
         <!-- then you'll want some kind of lighting system perhaps, a spotlight -->
@@ -329,10 +361,15 @@ import MatchAttax from "../assets/match-attax.webp";
     };
 
     const skipAnimation = false; // Set to true if you want to skip the animation in development
-    // Skip animation in development mode
-    if (skipAnimation) {
+    const prefersReducedMotion = matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (skipAnimation || prefersReducedMotion) {
       // Immediately activate the card without animation
       activate();
+      gsap.set([".sig", ".ear"], { drawSVG: 1 });
+      gsap.set(".nav", { opacity: 1, y: 0 });
       // Remove the glare element immediately
       const glareElement = document.querySelector(".glare");
       if (glareElement) {
@@ -403,7 +440,7 @@ import MatchAttax from "../assets/match-attax.webp";
             duration: 0.6,
             ease: "back.out(1.7)",
           },
-          "<"
+          0.25 // alongside the glare, rather than after the whole intro
         );
     }
   });
@@ -435,7 +472,11 @@ import MatchAttax from "../assets/match-attax.webp";
       top: 50%;
       left: 50%;
       rotate: 10deg;
-      translate: calc(-40% + var(--card-width) * -1) 0;
+      /* Extra nudge left as the card shrinks so the arrow doesn't overlap it */
+      translate: calc(
+          -40% + var(--card-width) * -1 - (260px - var(--card-width)) * 0.5
+        )
+        0;
       width: 80px;
       z-index: 99999;
 
@@ -535,7 +576,8 @@ import MatchAttax from "../assets/match-attax.webp";
   @layer demo {
     :root {
       --border-color: hsl(0 0% 25%);
-      --card-width: 260px;
+      /* Shrinks on short screens so the card clears the nav */
+      --card-width: clamp(140px, (100dvh - 14rem) * 5 / 7, min(260px, 75vw));
     }
     .scene {
       perspective: 1000px;
@@ -771,7 +813,7 @@ import MatchAttax from "../assets/match-attax.webp";
     .pattern,
     .watermark {
       filter: saturate(0.8) contrast(1) brightness(1);
-      mask: url(https://assets.codepen.io/605876/figma-texture.png) 50% 50% /
+      mask: url(../assets/figma-texture.png) 50% 50% /
         4cqi 4cqi;
       opacity: 0.4;
       mix-blend-mode: multiply;

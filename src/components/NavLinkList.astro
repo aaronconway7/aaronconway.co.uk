@@ -1,0 +1,50 @@
+---
+export interface Props {
+  items: { name: string; url: string; emoji: string }[];
+}
+
+const { items } = Astro.props;
+
+const hostname = (url: string) => new URL(url).hostname.replace(/^www\./, "");
+---
+
+<ul class="flex flex-col">
+  {
+    items.map((item) => (
+      <li>
+        <a
+          class="group flex items-center gap-3 px-[var(--nav-pad-x)] py-3 text-[var(--off-white)] transition-colors hover:bg-white/5 focus-visible:bg-white/5 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[var(--red)]"
+          href={item.url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="text-lg leading-none" aria-hidden="true">
+            {item.emoji}
+          </span>
+          <span class="flex min-w-0 flex-col gap-2 font-[JetBrains_Mono_Variable]">
+            <span class="uppercase tracking-wide leading-none underline-offset-3 transition-colors group-hover:text-[var(--red)] group-hover:underline">
+              {item.name}
+            </span>
+            <span class="truncate text-xs leading-none opacity-50">
+              {hostname(item.url)}
+            </span>
+          </span>
+          <svg
+            class="ml-auto h-4 shrink-0 opacity-0 transition-opacity group-hover:opacity-50 group-focus-visible:opacity-50"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M7 17L17 7M17 7H8M17 7V16"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </a>
+      </li>
+    ))
+  }
+</ul>

@@ -3,6 +3,7 @@ import CV from "../assets/cv-aaron-conway.pdf";
 import Memoji1 from "../assets/memoji-1.webp";
 import Memoji2 from "../assets/memoji-2.webp";
 import Memoji3 from "../assets/memoji-3.webp";
+import NavLinkList from "./NavLinkList.astro";
 
 // Navigation configuration - easy to maintain and extend
 const navItems = [
@@ -42,7 +43,7 @@ const navItems = [
         emoji: "🌳",
       },
       {
-        name: "Lush Heat Treamtment Ltd",
+        name: "Lush Heat Treatment Ltd",
         url: "https://lush-heat.com/",
         emoji: "🥵",
       },
@@ -83,35 +84,49 @@ const navItems = [
     target: "_blank",
   },
 ];
+
+const parentItems = navItems.filter((item) => item.type === "parent");
+
+// Passed to the client so cycling works with Astro's hashed filenames
+const memojis = [Memoji1, Memoji2, Memoji3].map((memoji) => memoji.src);
 ---
 
 <nav
-  class="nav bg-[#302e2c99] fixed top-8 right-8 backdrop-blur-lg rounded-3xl py-3 px-6 z-10 flex gap-6 items-center opacity-0 overflow-hidden"
+  class="nav bg-[#302e2c99] fixed top-8 right-8 backdrop-blur-lg rounded-3xl py-3 z-10 overflow-hidden"
 >
-  <button
-    id="nav-toggle"
-    class="nav-icon flex items-center justify-center cursor-pointer"
-  >
-    <img id="memoji" src={Memoji1.src} class="h-12" />
-    <svg
-      id="back-icon"
-      class="text-[var(--off-white)] hidden h-6 opacity-25 hover:opacity-50 link"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+  <div class="nav-bar flex gap-6 items-center">
+    <button
+      id="nav-toggle"
+      class="nav-icon flex items-center justify-center cursor-pointer"
+      aria-label="Change memoji"
     >
-      <path
-        d="M3 9H16.5C18.9853 9 21 11.0147 21 13.5C21 15.9853 18.9853 18 16.5 18H12M3 9L7 5M3 9L7 13"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"></path>
-    </svg>
-  </button>
+      <img
+        id="memoji"
+        src={Memoji1.src}
+        width={Memoji1.width}
+        height={Memoji1.height}
+        class="h-12 w-auto"
+        alt=""
+        data-memojis={JSON.stringify(memojis)}
+      />
+      <svg
+        id="back-icon"
+        class="text-[var(--off-white)] hidden h-6 opacity-25 hover:opacity-50 link"
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M3 9H16.5C18.9853 9 21 11.0147 21 13.5C21 15.9853 18.9853 18 16.5 18H12M3 9L7 5M3 9L7 13"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+    </button>
 
-  <div class="nav-container relative flex-1 flex">
-    <!-- Main Navigation -->
-    <ul id="main-nav" class="flex gap-6 items-center whitespace-nowrap">
+    <ul id="main-nav" class="flex flex-1 gap-6 items-center whitespace-nowrap">
       {
         navItems.map((item) => (
           <li>
@@ -128,13 +143,16 @@ const navItems = [
                 class="link bg-[var(--red)] hover:bg-[var(--off-white)] text-[#181818] rounded-lg px-4 py-2 uppercase font-[JetBrains_Mono_Variable] tracking-wide leading-[1]"
                 href={item.url}
                 target={item.target || "_self"}
+                rel={item.target === "_blank" ? "noopener" : undefined}
               >
                 {item.name}
               </a>
             ) : (
               <button
                 id={`${item.id}-btn`}
-                class="link text-[var(--off-white)] uppercase hover:underline hover:text-[var(--red)] font-[JetBrains_Mono_Variable] tracking-wide leading-[1] underline-offset-4 cursor-pointer"
+                class="link parent-btn text-[var(--off-white)] uppercase hover:underline hover:text-[var(--red)] aria-expanded:underline aria-expanded:text-[var(--red)] font-[JetBrains_Mono_Variable] tracking-wide leading-[1] underline-offset-4 cursor-pointer py-2 -my-2"
+                aria-expanded="false"
+                aria-controls={`${item.id}-panel`}
               >
                 {item.name}
               </button>
@@ -143,31 +161,25 @@ const navItems = [
         ))
       }
     </ul>
+  </div>
 
-    <!-- Child Navigations -->
-    {
-      navItems
-        .filter((item) => item.type === "parent")
-        .map((parentItem) => (
-          <ul
-            id={`${parentItem.id}-nav`}
-            class="flex gap-6 items-center absolute top-0 left-0 whitespace-nowrap h-full"
+  <!-- Dropdown panel for Projects / Socials -->
+  <div id="nav-panel" class="nav-panel overflow-hidden" hidden>
+    <div class="overflow-y-auto max-h-[60dvh] pt-3 border-t border-white/10">
+      {
+        parentItems.map((parentItem) => (
+          <div
+            id={`${parentItem.id}-panel`}
+            class="panel-list"
+            role="region"
+            aria-labelledby={`${parentItem.id}-btn`}
+            hidden
           >
-            {parentItem.children.map((child) => (
-              <li class="flex items-center">
-                <span class="mr-3">{child.emoji}</span>
-                <a
-                  class="link text-[var(--off-white)] uppercase hover:underline hover:text-[var(--red)] font-[JetBrains_Mono_Variable] tracking-wide leading-[1] underline-offset-4 inline-block"
-                  href={child.url}
-                  target="_blank"
-                >
-                  {child.name}
-                </a>
-              </li>
-            ))}
-          </ul>
+            <NavLinkList items={parentItem.children} />
+          </div>
         ))
-    }
+      }
+    </div>
   </div>
 </nav>
 
@@ -191,24 +203,65 @@ const navItems = [
     transform: scale(1.05);
   }
 
+  /* Hidden until the intro reveals it, but only when JS can do the revealing */
+  :global(.js) nav {
+    opacity: 0;
+  }
+
   nav {
+    --nav-pad-x: calc(var(--spacing) * 6);
+    padding-inline: var(--nav-pad-x);
     width: max-content;
     max-width: calc(100vw - var(--spacing) * 8 - var(--spacing) * 8);
+    transition: background-color 0.3s;
   }
 
-  .nav-container {
-    perspective: 1000px;
-    transform-style: preserve-3d;
-    overflow-x: auto;
+  /* More opaque while open so the list reads over the card */
+  nav:has(.nav-panel:not([hidden])) {
+    background-color: #302e2ce6;
+  }
+
+  #main-nav {
     min-height: 48px;
-    width: max-content;
   }
 
-  #main-nav,
-  [id$="-nav"] {
-    transform-style: preserve-3d;
-    transform-origin: center center;
-    width: max-content;
+  /* Matches the bar's width instead of stretching the pill, and bleeds to
+     the pill's edges so row hovers span the full width */
+  .nav-panel {
+    contain: inline-size;
+    margin-inline: calc(var(--nav-pad-x) * -1);
+    margin-bottom: calc(var(--spacing) * -3);
+  }
+
+  .nav-panel > div {
+    margin-top: calc(var(--spacing) * 3);
+  }
+
+  /* Landscape phones: give the card more room */
+  @media (max-height: 500px) {
+    nav {
+      top: calc(var(--spacing) * 4);
+    }
+  }
+
+  @media (max-width: 639px) {
+    nav {
+      top: calc(var(--spacing) * 4);
+      left: calc(var(--spacing) * 4);
+      right: calc(var(--spacing) * 4);
+      width: auto;
+      max-width: none;
+      --nav-pad-x: calc(var(--spacing) * 4);
+    }
+
+    .nav-bar {
+      gap: calc(var(--spacing) * 4);
+    }
+
+    #main-nav {
+      justify-content: flex-end;
+      gap: calc(var(--spacing) * 5);
+    }
   }
 </style>
 
@@ -216,222 +269,105 @@ const navItems = [
   import { gsap } from "gsap";
 
   document.addEventListener("DOMContentLoaded", function () {
+    const nav = document.querySelector(".nav");
     const navToggle = document.getElementById("nav-toggle");
-    const mainNav = document.getElementById("main-nav");
     const memoji = document.getElementById("memoji");
     const backIcon = document.getElementById("back-icon");
-    const navContainer = document.querySelector(".nav-container");
+    const panel = document.getElementById("nav-panel");
+    const parentButtons = [...document.querySelectorAll(".parent-btn")];
 
-    let currentMode = "main";
-    let isAnimating = false;
-
-    // Memoji cycling functionality
-    const memojiImages = [
-      memoji.src, // Current image (memoji-1)
-      memoji.src.replace("memoji-1.webp", "memoji-2.webp"),
-      memoji.src.replace("memoji-1.webp", "memoji-3.webp"),
-    ];
+    const memojiImages = JSON.parse(memoji.dataset.memojis);
     let currentMemojiIndex = 0;
+    let openId = null;
 
-    // Build navigation structure from config
-    const navConfig = {
-      main: { nav: mainNav, width: 0 },
-    };
-
-    // Find all child nav elements (they have IDs ending with "-nav" but not "main-nav")
-    const childNavs = document.querySelectorAll('[id$="-nav"]:not(#main-nav)');
-
-    childNavs.forEach((navElement) => {
-      const navId = navElement.id.replace("-nav", "");
-
-      // Initial setup - position sub navs below main nav
-      gsap.set(navElement, { rotationX: 90, transformOrigin: "center bottom" });
-
-      // Temporarily make visible to measure width
-      gsap.set(navElement, { visibility: "visible", position: "static" });
-      const width = navElement.offsetWidth;
-      gsap.set(navElement, { visibility: "hidden", position: "absolute" });
-
-      // Add to nav config
-      navConfig[navId] = { nav: navElement, width: width };
-    });
-
-    // Measure main nav width last (after all measurements)
-    navConfig.main.width = mainNav.offsetWidth;
-
-    // Set initial container width to main nav width
-    gsap.set(navContainer, { width: navConfig.main.width });
-
-    // Function to cycle to next memoji
     function cycleMemoji() {
       currentMemojiIndex = (currentMemojiIndex + 1) % memojiImages.length;
       memoji.src = memojiImages[currentMemojiIndex];
     }
 
-    function navigateTo(targetMode) {
-      if (isAnimating || currentMode === targetMode || !navConfig[targetMode])
+    // Memoji <-> back arrow
+    function swapIcon(showBack) {
+      const [from, to] = showBack ? [memoji, backIcon] : [backIcon, memoji];
+      navToggle.setAttribute("aria-label", showBack ? "Close menu" : "Change memoji");
+      gsap
+        .timeline()
+        .to(from, { scale: 0, rotation: 180, duration: 0.2, ease: "power2.inOut" })
+        .set(from, { display: "none" })
+        .set(to, { display: "block", scale: 0, rotation: -180 })
+        .to(to, { scale: 1, rotation: 0, duration: 0.2, ease: "power2.inOut" }, "-=0.05");
+    }
+
+    function showList(id) {
+      parentButtons.forEach((btn) =>
+        btn.setAttribute("aria-expanded", String(btn.id === `${id}-btn`))
+      );
+      document.querySelectorAll(".panel-list").forEach((list) => {
+        list.hidden = list.id !== `${id}-panel`;
+      });
+      const list = document.getElementById(`${id}-panel`);
+      gsap.fromTo(
+        list.querySelectorAll("li"),
+        { y: -6, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.25, stagger: 0.03, ease: "power2.out" }
+      );
+      list.querySelector("a")?.focus({ preventScroll: true });
+    }
+
+    function open(id) {
+      if (openId === id) return close();
+
+      if (openId) {
+        // Switching Projects <-> Socials: keep the panel, swap the list
+        const startHeight = panel.offsetHeight;
+        openId = id;
+        showList(id);
+        gsap.fromTo(panel, { height: startHeight }, { height: "auto", duration: 0.25, ease: "power2.inOut" });
         return;
+      }
 
-      isAnimating = true;
-      const fromMode = currentMode;
-      currentMode = targetMode;
+      openId = id;
+      swapIcon(true);
+      panel.hidden = false;
+      showList(id);
+      gsap.fromTo(panel, { height: 0, opacity: 0 }, { height: "auto", opacity: 1, duration: 0.3, ease: "power2.out" });
+    }
 
-      const tl = gsap.timeline({
+    function close() {
+      if (openId === null) return;
+      const returnFocusTo = document.getElementById(`${openId}-btn`);
+      openId = null;
+      parentButtons.forEach((btn) => btn.setAttribute("aria-expanded", "false"));
+      swapIcon(false);
+      gsap.to(panel, {
+        height: 0,
+        opacity: 0,
+        duration: 0.2,
+        ease: "power2.in",
         onComplete: () => {
-          isAnimating = false;
+          panel.hidden = true;
         },
       });
-
-      const fromNav = navConfig[fromMode];
-      const toNav = navConfig[targetMode];
-
-      // Animate container width
-      tl.to(navContainer, {
-        width: toNav.width,
-        duration: 0.25,
-        ease: "power2.inOut",
-      });
-
-      if (targetMode === "main") {
-        // Going back to main - show memoji, hide back icon
-        tl.to(
-          fromNav.nav,
-          {
-            rotationX: -90,
-            transformOrigin: "center bottom",
-            duration: 0.25,
-            ease: "power2.inOut",
-          },
-          "-=0.25"
-        )
-          .set(fromNav.nav, { visibility: "hidden" })
-          .to(
-            toNav.nav,
-            {
-              rotationX: 0,
-              transformOrigin: "center top",
-              duration: 0.25,
-              ease: "power2.inOut",
-              visibility: "visible",
-            },
-            "-=0.15"
-          )
-          // Icon transition back to memoji
-          .to(
-            backIcon,
-            {
-              scale: 0,
-              rotation: 180,
-              duration: 0.2,
-              ease: "power2.inOut",
-            },
-            "-=0.2"
-          )
-          .set(backIcon, { display: "none" })
-          .set(memoji, { display: "block", scale: 0, rotation: -180 })
-          .to(
-            memoji,
-            {
-              scale: 1,
-              rotation: 0,
-              duration: 0.2,
-              ease: "power2.inOut",
-            },
-            "-=0.05"
-          );
-      } else {
-        // Going to sub-nav - show back icon, hide memoji
-        if (fromMode === "main") {
-          // From main to sub-nav
-          tl.to(
-            fromNav.nav,
-            {
-              rotationX: -90,
-              transformOrigin: "center top",
-              duration: 0.25,
-              ease: "power2.inOut",
-            },
-            "-=0.25"
-          )
-            .set(fromNav.nav, { visibility: "hidden" })
-            .to(
-              toNav.nav,
-              {
-                rotationX: 0,
-                transformOrigin: "center bottom",
-                visibility: "visible",
-                duration: 0.25,
-                ease: "power2.inOut",
-              },
-              "-=0.15"
-            )
-            // Icon transition to back arrow
-            .to(
-              memoji,
-              {
-                scale: 0,
-                rotation: 180,
-                duration: 0.2,
-                ease: "power2.inOut",
-              },
-              "-=0.2"
-            )
-            .set(memoji, { display: "none" })
-            .set(backIcon, { display: "block", scale: 0, rotation: -180 })
-            .to(
-              backIcon,
-              {
-                scale: 1,
-                rotation: 0,
-                duration: 0.2,
-                ease: "power2.inOut",
-              },
-              "-=0.05"
-            );
-        } else {
-          // From sub-nav to sub-nav (side transition)
-          tl.to(
-            fromNav.nav,
-            {
-              rotationX: -90,
-              transformOrigin: "center bottom",
-              duration: 0.25,
-              ease: "power2.inOut",
-            },
-            "-=0.25"
-          )
-            .set(fromNav.nav, { visibility: "hidden" })
-            .to(
-              toNav.nav,
-              {
-                rotationX: 0,
-                transformOrigin: "center bottom",
-                visibility: "visible",
-                duration: 0.25,
-                ease: "power2.inOut",
-              },
-              "-=0.15"
-            );
-        }
+      if (nav.contains(document.activeElement)) {
+        returnFocusTo.focus({ preventScroll: true });
       }
     }
 
-    // Dynamic event listeners for parent nav items
-    const parentButtons = document.querySelectorAll('[id$="-btn"]');
-    parentButtons.forEach((button) => {
-      const navId = button.id.replace("-btn", "");
-      button.addEventListener("click", () => navigateTo(navId));
+    parentButtons.forEach((btn) => {
+      btn.addEventListener("click", () => open(btn.id.replace("-btn", "")));
     });
 
-    // Nav toggle event listener - handles both back navigation and memoji cycling
-    navToggle?.addEventListener("click", () => {
-      if (currentMode !== "main") {
-        // If we're in a sub-nav, go back to main
-        navigateTo("main");
-      } else {
-        // If we're in main nav, cycle the memoji
-        cycleMemoji();
-      }
+    // Memoji cycles when closed, acts as a back button when open
+    navToggle.addEventListener("click", () => {
+      if (openId) close();
+      else cycleMemoji();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") close();
+    });
+
+    document.addEventListener("pointerdown", (event) => {
+      if (openId && !nav.contains(event.target)) close();
     });
   });
 </script>
