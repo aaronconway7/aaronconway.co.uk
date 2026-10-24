@@ -6,6 +6,11 @@ import Headshot from "../assets/headshot.webp";
 import HeadshotTransparent from "../assets/headshot-transparent.webp";
 import PLBackdrop1 from "../assets/pl-backdrop-1.webp";
 import MatchAttax from "../assets/match-attax.webp";
+import { Image } from "astro:assets";
+
+// The card is 260px wide, so serve up to ~3x DPR instead of the 3024px originals
+const cardWidths = [400, 600, 800];
+const cardSizes = "260px";
 ---
 
 <div class="scene">
@@ -23,9 +28,25 @@ import MatchAttax from "../assets/match-attax.webp";
     <button aria-label="Flip card" aria-pressed="false"></button>
     <div class="card__content shadow-2xl shadow-black">
       <div class="card__rear card__face">
-        <img class="backdrop --img" src={PLBackdrop1.src} alt="" />
+        <Image
+          class="backdrop --img"
+          src={PLBackdrop1}
+          width={671}
+          widths={[400, 671]}
+          sizes={cardSizes}
+          alt=""
+          loading="lazy"
+        />
         <div class="card__emboss">
-          <img class="gemstone --img" src={MatchAttax.src} alt="" />
+          <Image
+            class="gemstone --img"
+            src={MatchAttax}
+            width={500}
+            widths={[200, 400, 500]}
+            sizes="160px"
+            alt=""
+            loading="lazy"
+          />
           <div
             class="absolute bottom-[calc(var(--border))] left-[var(--border)] right-[var(--border)]"
           >
@@ -106,10 +127,15 @@ import MatchAttax from "../assets/match-attax.webp";
       </div>
       <div class="card__front">
         <div class="img">
-          <img
+          <Image
             class="--img origin-bottom-right brightness-50"
-            src={Headshot.src}
+            src={Headshot}
+            width={800}
+            widths={cardWidths}
+            sizes={cardSizes}
             alt=""
+            loading="eager"
+            fetchpriority="high"
           />
         </div>
         <!-- when you're working with these layers, you need to think differently -->
@@ -164,16 +190,22 @@ import MatchAttax from "../assets/match-attax.webp";
           </svg>
 
           <div class="sticker">
-            <img
-              src={FDLogo.src}
+            <Image
+              src={FDLogo}
+              width={120}
               class="border-4 ml-1 mb-1 border-white rounded-lg"
               alt="Focaldata Logo"
             />
           </div>
-          <img
+          <Image
             class="--img origin-bottom-right"
-            src={HeadshotTransparent.src}
-            alt=""
+            src={HeadshotTransparent}
+            width={800}
+            widths={cardWidths}
+            sizes={cardSizes}
+            alt="Aaron Conway"
+            loading="eager"
+            fetchpriority="high"
           />
         </div>
         <!-- then you'll want some kind of lighting system perhaps, a spotlight -->
@@ -771,7 +803,7 @@ import MatchAttax from "../assets/match-attax.webp";
     .pattern,
     .watermark {
       filter: saturate(0.8) contrast(1) brightness(1);
-      mask: url(https://assets.codepen.io/605876/figma-texture.png) 50% 50% /
+      mask: url(../assets/figma-texture.png) 50% 50% /
         4cqi 4cqi;
       opacity: 0.4;
       mix-blend-mode: multiply;
